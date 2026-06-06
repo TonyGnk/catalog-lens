@@ -6,52 +6,84 @@ import com.intellij.diff.requests.SimpleDiffRequest
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
+import com.intellij.openapi.util.text.StringUtil
+import com.intellij.ui.CheckBoxList
 import com.intellij.ui.components.JBLabel
+import com.intellij.ui.components.JBScrollPane
 import com.intellij.util.ui.JBUI
-import com.intellij.util.ui.UIUtil
 import java.awt.BorderLayout
+import java.awt.Dimension
 import javax.swing.JComponent
 import javax.swing.JPanel
 
 class SortPreviewDialog(
-    project: Project,
+    private val project: Project,
     fileName: String,
-    fileType: FileType,
-    currentText: String,
-    sortedText: String,
+    private val fileType: FileType,
+    private val currentText: String,
+    private val analysis: CatalogGroupSorter.Analysis,
 ) : DialogWrapper(project) {
 
     private val diffPanel = DiffManager.getInstance().createRequestPanel(project, disposable, null)
-    private val resultContent = DiffContentFactory.getInstance().createEditable(project, sortedText, fileType)
+    private val groupList = CheckBoxList<Int>()
+    private val factory = DiffContentFactory.getInstance()
+    private val currentContent = factory.create(project, currentText, fileType)
+    private val diffTitle = "Sort $fileName"
 
-    val resultText: String
-        get() = resultContent.document.text
+    var resultText: String = currentText
+        private set
 
     init {
-        title = "Sort $fileName"
+        title = diffTitle
         setOKButtonText("Apply Sort")
+        for (group in analysis.changedGroups) {
+            val label = StringUtil.shortenTextWithEllipsis(group.label, 40, 0)
+            val lines = group.lineRange
+            groupList.addItem(group.index, "$label  (lines ${lines.first}–${lines.last})", true)
+        }
+        groupList.setCheckBoxListListener { _, _ -> updatePreview() }
+        updatePreview()
+        init()
+    }
+
+    private fun selectedIndices(): Set<Int> = buildSet {
+        for (i in 0 until groupList.model.size) {
+            val index = groupList.getItemAt(i) ?: continue
+            if (groupList.isItemSelected(i)) add(index)
+        }
+    }
+
+    private fun updatePreview() {
+        resultText = analysis.compose(selectedIndices())
         diffPanel.setRequest(
             SimpleDiffRequest(
-                "Sort $fileName",
-                DiffContentFactory.getInstance().create(project, currentText, fileType),
-                resultContent,
+                diffTitle,
+                currentContent,
+                factory.create(project, resultText, fileType),
                 "Current",
                 "Result",
             )
         )
-        init()
+        isOKActionEnabled = resultText != currentText
     }
 
-    override fun createCenterPanel(): JComponent = JPanel(BorderLayout(0, JBUI.scale(6))).apply {
-        add(diffPanel.component.apply { preferredSize = JBUI.size(900, 600) }, BorderLayout.CENTER)
+    override fun createCenterPanel(): JComponent = JPanel(BorderLayout(JBUI.scale(8), 0)).apply {
         add(
-            JBLabel("Use the gutter arrows to revert individual changes; the result pane is editable.").apply {
-                foreground = UIUtil.getContextHelpForeground()
-                border = JBUI.Borders.emptyLeft(2)
+            JPanel(BorderLayout(0, JBUI.scale(4))).apply {
+                add(JBLabel("Groups to sort:"), BorderLayout.NORTH)
+                add(
+                    JBScrollPane(groupList).apply {
+                        preferredSize = Dimension(JBUI.scale(260), 0)
+                    },
+                    BorderLayout.CENTER,
+                )
             },
-            BorderLayout.SOUTH,
+            BorderLayout.WEST,
         )
+        add(diffPanel.component.apply { preferredSize = JBUI.size(800, 600) }, BorderLayout.CENTER)
     }
 
-    override fun getPreferredFocusedComponent(): JComponent? = diffPanel.preferredFocusedComponent
+    override fun getDimensionServiceKey(): String = "CatalogLens.SortPreviewDialog"
+
+    override fun getPreferredFocusedComponent(): JComponent = groupList
 }

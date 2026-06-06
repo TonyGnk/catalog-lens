@@ -40,7 +40,8 @@ intellijPlatform {
         }
         changeNotes = """
             <ul>
-                <li>0.5.2: sort preview result pane is editable — revert individual hunks via gutter arrows or tweak by hand before applying; no-op applies are skipped.</li>
+                <li>0.5.3: sort preview now lists each unsorted group with a checkbox — pick exactly which groups to sort, with a live diff preview. Safer apply: keeps caret and scroll position, aborts if the document changed underneath, dialog size is remembered. Quoted keys now sort by their unquoted name.</li>
+                <li>0.5.2: sort preview result pane editable — revert individual hunks before applying.</li>
                 <li>0.5.1: maintenance release — links always open in the system browser.</li>
                 <li>0.5.0: new editor action — sort catalog entries A→Z within each group (blank lines, comments and table headers act as delimiters and stay in place), with a diff preview where individual changes can be reverted before applying. Available from a floating editor icon and the editor context menu.</li>
                 <li>0.4.0: Maven Central links open the Versions tab directly; maven.google.com links open the artifact's full version list (no stale pre-selected version).</li>

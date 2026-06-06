@@ -5,5 +5,7 @@ build/
 .kotlin/
 *.iml
 local.properties
+*.pem
+*.crt
 research-data.md
 .DS_Store

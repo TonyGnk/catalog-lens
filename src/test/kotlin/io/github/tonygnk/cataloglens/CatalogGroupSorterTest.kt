@@ -185,4 +185,150 @@ class CatalogGroupSorterTest {
         """.trimIndent()
         assertEquals(input, CatalogGroupSorter.sort(input))
     }
+
+    @Test
+    fun analyzeReportsOnlyChangedGroups() {
+        val input = """
+            [versions]
+            b = "1"
+            a = "2"
+
+            # sorted already
+            c = "3"
+            d = "4"
+        """.trimIndent()
+        val groups = CatalogGroupSorter.analyze(input).changedGroups
+        assertEquals(1, groups.size)
+        assertEquals("[versions]", groups[0].label)
+        assertEquals(2..3, groups[0].lineRange)
+    }
+
+    @Test
+    fun analyzeLabelFallsBackToFirstKey() {
+        val input = """
+            b = "1"
+            a = "2"
+        """.trimIndent()
+        val groups = CatalogGroupSorter.analyze(input).changedGroups
+        assertEquals("b", groups[0].label)
+    }
+
+    @Test
+    fun composeSortsOnlySelectedGroups() {
+        val input = """
+            b = "1"
+            a = "2"
+
+            d = "3"
+            c = "4"
+        """.trimIndent()
+        val analysis = CatalogGroupSorter.analyze(input)
+        val groups = analysis.changedGroups
+        assertEquals(2, groups.size)
+        val expected = """
+            a = "2"
+            b = "1"
+
+            d = "3"
+            c = "4"
+        """.trimIndent()
+        assertEquals(expected, analysis.compose(setOf(groups[0].index)))
+    }
+
+    @Test
+    fun composeEmptySelectionIsIdentity() {
+        val input = """
+            b = "1"
+            a = "2"
+        """.trimIndent()
+        assertEquals(input, CatalogGroupSorter.analyze(input).compose(emptySet()))
+    }
+
+    @Test
+    fun quotedKeysSortWithoutQuotes() {
+        val input = """
+            "zebra" = "1"
+            apple = "2"
+        """.trimIndent()
+        val expected = """
+            apple = "2"
+            "zebra" = "1"
+        """.trimIndent()
+        assertEquals(expected, CatalogGroupSorter.sort(input))
+    }
+
+    @Test
+    fun sortIsIdempotent() {
+        val input = """
+            [versions]
+            b = "1"
+            a = "2"
+            # comment
+            Zebra = "3"
+            apple = "4"
+
+            [bundles]
+            network = [
+                "okhttp",
+            ]
+            compose = ["ui"]
+        """.trimIndent()
+        val once = CatalogGroupSorter.sort(input)
+        assertEquals(once, CatalogGroupSorter.sort(once))
+    }
+
+    @Test
+    fun commentInsideOpenArrayGluedToEntry() {
+        val input = """
+            b = [
+                # inner comment
+                "x",
+            ]
+            a = ["y"]
+        """.trimIndent()
+        val expected = """
+            a = ["y"]
+            b = [
+                # inner comment
+                "x",
+            ]
+        """.trimIndent()
+        assertEquals(expected, CatalogGroupSorter.sort(input))
+    }
+
+    @Test
+    fun blankLineInsideOpenArrayGluedToEntry() {
+        val input = """
+            b = [
+                "x",
+
+                "z",
+            ]
+            a = ["y"]
+        """.trimIndent()
+        val expected = """
+            a = ["y"]
+            b = [
+                "x",
+
+                "z",
+            ]
+        """.trimIndent()
+        assertEquals(expected, CatalogGroupSorter.sort(input))
+    }
+
+    @Test
+    fun lineWithoutEqualsSortsByWholeLine() {
+        val input = "b\na"
+        assertEquals("a\nb", CatalogGroupSorter.sort(input))
+    }
+
+    @Test
+    fun extraClosingBracketLeavesGroupUntouched() {
+        val input = """
+            b = "1"]
+            a = "2"
+        """.trimIndent()
+        assertEquals(input, CatalogGroupSorter.sort(input))
+    }
 }
