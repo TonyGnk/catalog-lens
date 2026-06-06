@@ -85,8 +85,31 @@ class VersionMarkersTest : BasePlatformTestCase() {
 
     fun testGutterMarkersAppearOnMappedVersionKeys() {
         myFixture.configureByText("libs.versions.toml", catalog)
-        val markers = myFixture.findAllGutters()
-        // okhttp, coilVersion, agp mapped; unknown not -> at least 3 web gutters
-        assertTrue("Expected >= 3 gutter icons, got ${markers.size}", markers.size >= 3)
+        val notesGutters = myFixture.findAllGutters()
+            .filter { it.tooltipText == "Open upstream release notes" }
+        // okhttp, coilVersion, agp mapped; unknown not -> exactly 3
+        assertEquals(3, notesGutters.size)
+    }
+
+    fun testLongFormPluginVersionRef() {
+        myFixture.configureByText(
+            "libs.versions.toml",
+            """
+            [versions]
+            agp = "8.5.0"
+
+            [plugins]
+            android-library.id = "com.android.library"
+            android-library.version.ref = "agp"
+            """.trimIndent(),
+        )
+        val ids = CatalogCoordinateExtractor.pluginIdsForVersionRef(
+            myFixture.file as TomlFile, "agp",
+        )
+        assertSameElements(ids, "com.android.library")
+
+        val notesGutters = myFixture.findAllGutters()
+            .filter { it.tooltipText == "Open upstream release notes" }
+        assertEquals(1, notesGutters.size)
     }
 }

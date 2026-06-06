@@ -21,11 +21,6 @@
         <codeInsight.lineMarkerProvider language="TOML"
             implementationClass="io.github.tonygnk.cataloglens.markers.VersionsLineMarkerProvider"/>
 
-        <applicationService
-            serviceImplementation="io.github.tonygnk.cataloglens.settings.CatalogLensGlobalSettings"/>
-        <projectService
-            serviceImplementation="io.github.tonygnk.cataloglens.settings.CatalogLensProjectSettings"/>
-
         <applicationConfigurable parentId="tools"
             id="io.github.tonygnk.cataloglens.settings"
             displayName="CatalogLens"

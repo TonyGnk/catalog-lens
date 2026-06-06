@@ -25,8 +25,11 @@ internal class MappingsTablePanel {
         model.items = mappings.entries.map { MappingRow(it.key, it.value) }.toMutableList()
     }
 
-    fun current(): Map<String, String> {
+    fun commitEdits() {
         if (table.isEditing) table.cellEditor.stopCellEditing()
+    }
+
+    fun current(): Map<String, String> {
         return model.items
             .filter { it.key.isNotBlank() && it.urls.isNotBlank() }
             .associate { it.key.trim() to it.urls.trim() }

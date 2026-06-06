@@ -40,7 +40,8 @@ intellijPlatform {
         }
         changeNotes = """
             <ul>
-                <li>Initial release: artifact links on [libraries] entries, upstream changelog gutter icons on [versions] entries, bundled artifact map with project/global overrides.</li>
+                <li>0.2.0: per-file cached catalog index (faster highlighting on large catalogs), long-form [plugins] entries now resolved, settings UI fixes (table editing no longer interrupted, robust bindings), global settings now roam via Settings Sync.</li>
+                <li>0.1.0: artifact links on [libraries] entries, upstream changelog gutter icons on [versions] entries, bundled artifact map with project/global overrides.</li>
             </ul>
         """.trimIndent()
     }

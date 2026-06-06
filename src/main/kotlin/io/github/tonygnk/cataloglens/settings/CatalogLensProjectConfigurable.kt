@@ -30,6 +30,7 @@ class CatalogLensProjectConfigurable(private val project: Project) : Configurabl
     override fun isModified(): Boolean = mappingsPanel.current() != settings.mappings
 
     override fun apply() {
+        mappingsPanel.commitEdits()
         settings.mappings = mappingsPanel.current().toMutableMap()
     }
 

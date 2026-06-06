@@ -4,7 +4,6 @@ import com.intellij.openapi.options.Configurable
 import com.intellij.ui.dsl.builder.bindItem
 import com.intellij.ui.dsl.builder.bindSelected
 import com.intellij.ui.dsl.builder.panel
-import com.intellij.ui.dsl.builder.toNullableProperty
 import com.intellij.ui.dsl.builder.Align
 import com.intellij.openapi.ui.DialogPanel
 import io.github.tonygnk.cataloglens.links.ArtifactUrlStyle
@@ -22,12 +21,15 @@ class CatalogLensConfigurable : Configurable {
         val panel = panel {
             row {
                 checkBox("Use bundled artifact map")
-                    .bindSelected(settings::useBundledMap)
+                    .bindSelected({ settings.useBundledMap }, { settings.useBundledMap = it })
                     .comment("Built-in mappings from popular artifacts to their release notes and changelogs")
             }
             row("Artifact link target:") {
                 comboBox(ArtifactUrlStyle.entries)
-                    .bindItem(settings::artifactUrlStyle.toNullableProperty())
+                    .bindItem(
+                        { settings.artifactUrlStyle },
+                        { settings.artifactUrlStyle = it ?: ArtifactUrlStyle.MAVEN_CENTRAL },
+                    )
                     .comment("Site opened when clicking a [libraries] entry")
             }
             group("Global Mappings") {
@@ -48,6 +50,7 @@ class CatalogLensConfigurable : Configurable {
 
     override fun apply() {
         dialogPanel?.apply()
+        mappingsPanel.commitEdits()
         settings.mappings = mappingsPanel.current().toMutableMap()
     }
 
