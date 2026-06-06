@@ -1,0 +1,38 @@
+<idea-plugin>
+    <id>io.github.tonygnk.cataloglens</id>
+    <name>CatalogLens</name>
+    <vendor email="tonygnkpublic@gmail.com" url="https://github.com/tonygnk">tonygnk</vendor>
+
+    <description><![CDATA[
+        Makes Gradle version catalogs (<code>libs.versions.toml</code>) navigable.
+        <ul>
+            <li>Ctrl/Cmd-click any <code>[libraries]</code> entry to open its Maven Central or MvnRepository page.</li>
+            <li>Gutter icons on <code>[versions]</code> entries link to upstream release notes and changelogs.</li>
+        </ul>
+        All links are built locally — no network access while editing.
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>org.toml.lang</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <psi.referenceContributor language="TOML"
+            implementation="io.github.tonygnk.cataloglens.links.LibrariesReferenceContributor"/>
+        <codeInsight.lineMarkerProvider language="TOML"
+            implementationClass="io.github.tonygnk.cataloglens.markers.VersionsLineMarkerProvider"/>
+
+        <applicationService
+            serviceImplementation="io.github.tonygnk.cataloglens.settings.CatalogLensGlobalSettings"/>
+        <projectService
+            serviceImplementation="io.github.tonygnk.cataloglens.settings.CatalogLensProjectSettings"/>
+
+        <applicationConfigurable parentId="tools"
+            id="io.github.tonygnk.cataloglens.settings"
+            displayName="CatalogLens"
+            instance="io.github.tonygnk.cataloglens.settings.CatalogLensConfigurable"/>
+        <projectConfigurable parentId="io.github.tonygnk.cataloglens.settings"
+            id="io.github.tonygnk.cataloglens.settings.project"
+            displayName="Project Mappings"
+            instance="io.github.tonygnk.cataloglens.settings.CatalogLensProjectConfigurable"/>
+    </extensions>
+</idea-plugin>

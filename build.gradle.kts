@@ -1,0 +1,70 @@
+import org.jetbrains.intellij.platform.gradle.TestFrameworkType
+import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask
+
+plugins {
+    id("java")
+    id("org.jetbrains.kotlin.jvm") version "2.1.21"
+    id("org.jetbrains.intellij.platform") version "2.16.0"
+}
+
+group = providers.gradleProperty("pluginGroup").get()
+version = providers.gradleProperty("pluginVersion").get()
+
+kotlin {
+    jvmToolchain(21)
+}
+
+repositories {
+    mavenCentral()
+    intellijPlatform {
+        defaultRepositories()
+    }
+}
+
+dependencies {
+    intellijPlatform {
+        intellijIdeaCommunity("2025.1")
+        bundledPlugin("org.toml.lang")
+        testFramework(TestFrameworkType.Platform)
+        zipSigner()
+    }
+    testImplementation("junit:junit:4.13.2")
+}
+
+intellijPlatform {
+    pluginConfiguration {
+        version = providers.gradleProperty("pluginVersion").get()
+        ideaVersion {
+            sinceBuild = "251"
+            untilBuild = provider { null }
+        }
+        changeNotes = """
+            <ul>
+                <li>Initial release: artifact links on [libraries] entries, upstream changelog gutter icons on [versions] entries, bundled artifact map with project/global overrides.</li>
+            </ul>
+        """.trimIndent()
+    }
+    signing {
+        certificateChain = providers.environmentVariable("CERTIFICATE_CHAIN")
+        privateKey = providers.environmentVariable("PRIVATE_KEY")
+        password = providers.environmentVariable("PRIVATE_KEY_PASSWORD")
+    }
+    publishing {
+        token = providers.environmentVariable("PUBLISH_TOKEN")
+    }
+    pluginVerification {
+        ides {
+            recommended()
+        }
+        failureLevel = listOf(
+            VerifyPluginTask.FailureLevel.COMPATIBILITY_PROBLEMS,
+            VerifyPluginTask.FailureLevel.MISSING_DEPENDENCIES,
+        )
+    }
+}
+
+val runAndroidStudio by intellijPlatformTesting.runIde.registering {
+    localPath = file(
+        providers.gradleProperty("androidStudioPath").getOrElse("/Applications/Android Studio.app")
+    )
+}
