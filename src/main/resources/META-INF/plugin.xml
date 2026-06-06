@@ -8,6 +8,7 @@
         <ul>
             <li>Ctrl/Cmd-click any <code>[libraries]</code> entry to open its Maven Central or MvnRepository page.</li>
             <li>Gutter icons on <code>[versions]</code> entries link to upstream release notes and changelogs.</li>
+            <li>Sort catalog groups A&#8594;Z &#8212; floating editor icon opens a diff preview; apply or cancel. Blank lines and comments delimit groups and stay in place.</li>
         </ul>
         All links are built locally — no network access while editing.
     ]]></description>
@@ -29,5 +30,21 @@
             id="io.github.tonygnk.cataloglens.settings.project"
             displayName="Project Mappings"
             instance="io.github.tonygnk.cataloglens.settings.CatalogLensProjectConfigurable"/>
+
+        <editorFloatingToolbarProvider
+            implementation="io.github.tonygnk.cataloglens.sort.SortCatalogFloatingToolbarProvider"/>
     </extensions>
+
+    <actions>
+        <action id="CatalogLens.SortCatalog"
+                class="io.github.tonygnk.cataloglens.sort.SortCatalogAction"
+                text="Sort Catalog Groups A→Z"
+                description="Sort entries alphabetically within each group of the version catalog"
+                icon="AllIcons.ObjectBrowser.Sorted">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <group id="CatalogLens.SortToolbarGroup">
+            <reference ref="CatalogLens.SortCatalog"/>
+        </group>
+    </actions>
 </idea-plugin>

@@ -19,7 +19,13 @@ class CatalogLensGlobalSettings : PersistentStateComponent<CatalogLensGlobalSett
     class State {
         var useBundledMap: Boolean = true
         var artifactUrlStyle: ArtifactUrlStyle = ArtifactUrlStyle.MAVEN_CENTRAL
-        var mappings: MutableMap<String, String> = mutableMapOf()
+
+        // Seeded with a real sample row demonstrating the expected format: exact
+        // "group:artifact" key mapped to its release-notes page. Not in the bundled map,
+        // so it extends coverage instead of shadowing. Users can edit or delete it.
+        var mappings: MutableMap<String, String> = mutableMapOf(
+            "com.materialkolor:material-kolor" to "https://github.com/jordond/MaterialKolor/releases",
+        )
     }
 
     private var state = State()
