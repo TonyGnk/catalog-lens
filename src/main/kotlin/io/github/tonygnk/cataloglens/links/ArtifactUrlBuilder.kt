@@ -30,16 +30,17 @@ object ArtifactUrlBuilder {
                 if (isGoogleMavenHosted(coord.group)) {
                     googleMavenUrl(coord)
                 } else {
-                    withVersion("https://central.sonatype.com/artifact/${coord.group}/${coord.name}", coord)
+                    // Land on the Versions tab instead of the default Overview tab.
+                    withVersion("https://central.sonatype.com/artifact/${coord.group}/${coord.name}", coord) + "/versions"
                 }
             ArtifactUrlStyle.MVNREPOSITORY ->
                 withVersion("https://mvnrepository.com/artifact/${coord.group}/${coord.name}", coord)
         }
 
-    private fun googleMavenUrl(coord: Coord): String {
-        val anchor = listOfNotNull(coord.group, coord.name, coord.version).joinToString(":")
-        return "https://maven.google.com/web/index.html#$anchor"
-    }
+    // No version in the anchor: the artifact page with the full version list is more
+    // useful than pre-selecting one, and a stale version would render an empty detail pane.
+    private fun googleMavenUrl(coord: Coord): String =
+        "https://maven.google.com/web/index.html#${coord.group}:${coord.name}"
 
     private fun withVersion(base: String, coord: Coord): String =
         if (coord.version != null) "$base/${coord.version}" else base

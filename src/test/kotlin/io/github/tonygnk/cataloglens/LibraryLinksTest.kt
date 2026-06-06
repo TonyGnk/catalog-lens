@@ -32,28 +32,28 @@ class LibraryLinksTest : BasePlatformTestCase() {
     fun testGroupNameVersionRef() {
         assertContainsElements(
             webUrls(),
-            "https://maven.google.com/web/index.html#androidx.core:core-ktx:1.13.0",
+            "https://maven.google.com/web/index.html#androidx.core:core-ktx",
         )
     }
 
     fun testModuleVersionRef() {
         assertContainsElements(
             webUrls(),
-            "https://central.sonatype.com/artifact/com.squareup.okhttp3/okhttp/1.13.0",
+            "https://central.sonatype.com/artifact/com.squareup.okhttp3/okhttp/1.13.0/versions",
         )
     }
 
     fun testModuleLiteralVersion() {
         assertContainsElements(
             webUrls(),
-            "https://central.sonatype.com/artifact/io.coil-kt/coil/2.6.0",
+            "https://central.sonatype.com/artifact/io.coil-kt/coil/2.6.0/versions",
         )
     }
 
     fun testStringNotation() {
         assertContainsElements(
             webUrls(),
-            "https://central.sonatype.com/artifact/com.google.code.gson/gson/2.11.0",
+            "https://central.sonatype.com/artifact/com.google.code.gson/gson/2.11.0/versions",
         )
     }
 
@@ -75,7 +75,7 @@ class LibraryLinksTest : BasePlatformTestCase() {
             .mapNotNull { it.url }
         assertContainsElements(
             urls,
-            "https://maven.google.com/web/index.html#androidx.core:core-ktx:1.13.0",
+            "https://maven.google.com/web/index.html#androidx.core:core-ktx",
         )
     }
 
@@ -95,9 +95,9 @@ class LibraryLinksTest : BasePlatformTestCase() {
             .mapNotNull { it.url }
         assertContainsElements(
             urls,
-            "https://maven.google.com/web/index.html#com.google.firebase:firebase-messaging:25.0.0",
-            "https://maven.google.com/web/index.html#com.google.android.material:material:1.13.0",
-            "https://maven.google.com/web/index.html#com.android.tools:desugar_jdk_libs:2.1.5",
+            "https://maven.google.com/web/index.html#com.google.firebase:firebase-messaging",
+            "https://maven.google.com/web/index.html#com.google.android.material:material",
+            "https://maven.google.com/web/index.html#com.android.tools:desugar_jdk_libs",
         )
     }
 
@@ -116,8 +116,8 @@ class LibraryLinksTest : BasePlatformTestCase() {
             .mapNotNull { it.url }
         assertContainsElements(
             urls,
-            "https://central.sonatype.com/artifact/com.google.dagger/hilt-android/2.57",
-            "https://central.sonatype.com/artifact/org.jetbrains.compose.ui/ui/1.11.1",
+            "https://central.sonatype.com/artifact/com.google.dagger/hilt-android/2.57/versions",
+            "https://central.sonatype.com/artifact/org.jetbrains.compose.ui/ui/1.11.1/versions",
         )
     }
 
