@@ -8,7 +8,7 @@
         <ul>
             <li>Ctrl/Cmd-click any <code>[libraries]</code> entry to open its Maven Central or MvnRepository page.</li>
             <li>Gutter icons on <code>[versions]</code> entries link to upstream release notes and changelogs.</li>
-            <li>Sort catalog groups A&#8594;Z &#8212; floating editor icon opens a diff preview; apply or cancel. Blank lines and comments delimit groups and stay in place.</li>
+            <li>Sort catalog groups A&#8594;Z &#8212; floating editor icon opens a diff preview; revert individual changes via the gutter arrows, then apply or cancel. Blank lines and comments delimit groups and stay in place.</li>
         </ul>
         All links are built locally — no network access while editing.
     ]]></description>

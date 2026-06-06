@@ -40,8 +40,9 @@ intellijPlatform {
         }
         changeNotes = """
             <ul>
+                <li>0.5.2: sort preview result pane is editable — revert individual hunks via gutter arrows or tweak by hand before applying; no-op applies are skipped.</li>
                 <li>0.5.1: maintenance release — links always open in the system browser.</li>
-                <li>0.5.0: new editor action — sort catalog entries A→Z within each group (blank lines, comments and table headers act as delimiters and stay in place), with a diff preview and Apply/Cancel. Available from a floating editor icon and the editor context menu.</li>
+                <li>0.5.0: new editor action — sort catalog entries A→Z within each group (blank lines, comments and table headers act as delimiters and stay in place), with a diff preview where individual changes can be reverted before applying. Available from a floating editor icon and the editor context menu.</li>
                 <li>0.4.0: Maven Central links open the Versions tab directly; maven.google.com links open the artifact's full version list (no stale pre-selected version).</li>
                 <li>0.3.0: Google-Maven-only artifacts (androidx, com.android, Firebase, GMS, ML Kit, …) now link to maven.google.com instead of a dead Maven Central page.</li>
                 <li>0.2.0: per-file cached catalog index (faster highlighting on large catalogs), long-form [plugins] entries now resolved, settings UI fixes (table editing no longer interrupted, robust bindings), global settings now roam via Settings Sync.</li>

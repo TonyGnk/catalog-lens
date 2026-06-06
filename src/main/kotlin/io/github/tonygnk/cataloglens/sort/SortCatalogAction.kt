@@ -33,8 +33,10 @@ class SortCatalogAction : AnAction(), DumbAware {
 
         val dialog = SortPreviewDialog(project, psiFile.name, psiFile.fileType, current, sorted)
         if (dialog.showAndGet()) {
+            val result = dialog.resultText
+            if (result == current) return
             WriteCommandAction.runWriteCommandAction(project, "Sort Catalog Groups", null, {
-                document.setText(sorted)
+                document.setText(result)
             }, psiFile)
         }
     }
