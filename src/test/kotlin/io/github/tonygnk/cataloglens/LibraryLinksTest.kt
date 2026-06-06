@@ -32,7 +32,7 @@ class LibraryLinksTest : BasePlatformTestCase() {
     fun testGroupNameVersionRef() {
         assertContainsElements(
             webUrls(),
-            "https://central.sonatype.com/artifact/androidx.core/core-ktx/1.13.0",
+            "https://maven.google.com/web/index.html#androidx.core:core-ktx:1.13.0",
         )
     }
 
@@ -75,7 +75,49 @@ class LibraryLinksTest : BasePlatformTestCase() {
             .mapNotNull { it.url }
         assertContainsElements(
             urls,
-            "https://central.sonatype.com/artifact/androidx.core/core-ktx/1.13.0",
+            "https://maven.google.com/web/index.html#androidx.core:core-ktx:1.13.0",
+        )
+    }
+
+    fun testGoogleMavenRouting() {
+        myFixture.configureByText(
+            "libs.versions.toml",
+            """
+            [libraries]
+            messaging = { group = "com.google.firebase", name = "firebase-messaging", version = "25.0.0" }
+            material = { module = "com.google.android.material:material", version = "1.13.0" }
+            desugar = { module = "com.android.tools:desugar_jdk_libs", version = "2.1.5" }
+            """.trimIndent(),
+        )
+        val urls = PsiTreeUtil.findChildrenOfType(myFixture.file, TomlLiteral::class.java)
+            .flatMap { it.references.toList() }
+            .filterIsInstance<WebReference>()
+            .mapNotNull { it.url }
+        assertContainsElements(
+            urls,
+            "https://maven.google.com/web/index.html#com.google.firebase:firebase-messaging:25.0.0",
+            "https://maven.google.com/web/index.html#com.google.android.material:material:1.13.0",
+            "https://maven.google.com/web/index.html#com.android.tools:desugar_jdk_libs:2.1.5",
+        )
+    }
+
+    fun testCentralHostedGoogleGroupsStayOnCentral() {
+        myFixture.configureByText(
+            "libs.versions.toml",
+            """
+            [libraries]
+            hilt = { group = "com.google.dagger", name = "hilt-android", version = "2.57" }
+            jbCompose = { module = "org.jetbrains.compose.ui:ui", version = "1.11.1" }
+            """.trimIndent(),
+        )
+        val urls = PsiTreeUtil.findChildrenOfType(myFixture.file, TomlLiteral::class.java)
+            .flatMap { it.references.toList() }
+            .filterIsInstance<WebReference>()
+            .mapNotNull { it.url }
+        assertContainsElements(
+            urls,
+            "https://central.sonatype.com/artifact/com.google.dagger/hilt-android/2.57",
+            "https://central.sonatype.com/artifact/org.jetbrains.compose.ui/ui/1.11.1",
         )
     }
 
