@@ -1,5 +1,11 @@
 {
   "artifacts": {
+    "com.adaptiverecognition:carmen-cloud-api": [
+      "https://github.com/adaptiverecognition/java-carmen-cloud-api/tags"
+    ],
+    "com.google.android.gms:play-services-mlkit-barcode-scanning": [
+      "https://developers.google.com/ml-kit/release-notes"
+    ],
     "com.squareup.okhttp3:okhttp": [
       "https://square.github.io/okhttp/changelogs/changelog/",
       "https://github.com/square/okhttp/releases"
@@ -110,6 +116,9 @@
     "org.jetbrains.compose": [
       "https://github.com/JetBrains/compose-multiplatform/releases"
     ],
+    "org.jetbrains.compose.hot-reload": [
+      "https://github.com/JetBrains/compose-hot-reload/releases"
+    ],
     "com.android.application": [
       "https://developer.android.com/build/releases/gradle-plugin"
     ],
@@ -118,6 +127,111 @@
     ],
     "com.google.gms.google-services": [
       "https://developers.google.com/android/guides/google-services-plugin"
+    ],
+    "app.cash.paparazzi:paparazzi": [
+      "https://github.com/cashapp/paparazzi/releases"
+    ],
+    "app.cash.paparazzi:paparazzi-gradle-plugin": [
+      "https://github.com/cashapp/paparazzi/releases"
+    ],
+    "io.insert-koin:koin-annotations": [
+      "https://github.com/InsertKoinIO/koin-annotations/releases"
+    ],
+    "io.insert-koin.compiler": [
+      "https://github.com/InsertKoinIO/koin-compiler-plugin/releases"
+    ],
+    "org.jetbrains.kotlinx:kotlinx-io-core": [
+      "https://github.com/Kotlin/kotlinx-io/releases"
+    ],
+    "org.jetbrains.dokka": [
+      "https://github.com/Kotlin/dokka/releases"
+    ],
+    "io.detekt:detekt-gradle-plugin": [
+      "https://github.com/detekt/detekt/releases"
+    ],
+    "io.detekt:detekt-formatting": [
+      "https://github.com/detekt/detekt/releases"
+    ],
+    "io.detekt:detekt-rules-libraries": [
+      "https://github.com/detekt/detekt/releases"
+    ],
+    "com.pinterest:ktlint": [
+      "https://github.com/pinterest/ktlint/releases"
+    ],
+    "com.willowtreeapps.assertk:assertk": [
+      "https://github.com/willowtreeapps/assertk/releases"
+    ],
+    "io.opentelemetry.android:agent": [
+      "https://github.com/open-telemetry/opentelemetry-android/releases"
+    ],
+    "com.fredporciuncula:flow-preferences": [
+      "https://github.com/tfcporciuncula/flow-preferences/releases"
+    ],
+    "com.google.android.gms:play-services-location": [
+      "https://developers.google.com/android/guides/releases"
+    ],
+    "com.google.android.gms:play-services-auth": [
+      "https://developers.google.com/android/guides/releases"
+    ],
+    "com.google.mlkit:text-recognition": [
+      "https://developers.google.com/ml-kit/release-notes"
+    ],
+    "com.google.mlkit:face-detection": [
+      "https://developers.google.com/ml-kit/release-notes"
+    ],
+    "com.google.mlkit:barcode-scanning": [
+      "https://developers.google.com/ml-kit/release-notes"
+    ],
+    "org.jetbrains.kotlinx:kotlinx-serialization-cbor": [
+      "https://github.com/Kotlin/kotlinx.serialization/releases"
+    ],
+    "org.jetbrains.kotlinx:kotlinx-serialization-protobuf": [
+      "https://github.com/Kotlin/kotlinx.serialization/releases"
+    ],
+    "androidx.navigation.safeargs": [
+      "https://developer.android.com/jetpack/androidx/releases/navigation"
+    ],
+    "com.auth0.android:jwtdecode": [
+      "https://github.com/auth0/JWTDecode.Android/releases"
+    ],
+    "com.github.skydoves:compose-stable-marker": [
+      "https://github.com/skydoves/compose-stable-marker/releases"
+    ],
+    "com.google.android.play:app-update-ktx": [
+      "https://developer.android.com/reference/com/google/android/play/core/release-notes"
+    ],
+    "com.google.android.play:review": [
+      "https://developer.android.com/reference/com/google/android/play/core/release-notes"
+    ],
+    "com.google.firebase.crashlytics": [
+      "https://firebase.google.com/support/release-notes/android"
+    ],
+    "com.google.maps.android:maps-compose-utils": [
+      "https://github.com/googlemaps/android-maps-compose/releases"
+    ],
+    "com.google.zxing:core": [
+      "https://github.com/zxing/zxing/releases"
+    ],
+    "com.journeyapps:zxing-android-embedded": [
+      "https://github.com/journeyapps/zxing-android-embedded/releases"
+    ],
+    "com.pierfrancescosoffritti.androidyoutubeplayer:core": [
+      "https://github.com/PierfrancescoSoffritti/android-youtube-player/releases"
+    ],
+    "com.salesforce.marketingcloud:marketingcloudsdk": [
+      "https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/release-notes/release-notes.html"
+    ],
+    "com.scottyab:rootbeer-lib": [
+      "https://github.com/scottyab/rootbeer/releases"
+    ],
+    "io.mockk:mockk-android": [
+      "https://github.com/mockk/mockk/releases"
+    ],
+    "org.hamcrest:hamcrest-all": [
+      "https://github.com/hamcrest/JavaHamcrest/releases"
+    ],
+    "org.mockito:mockito-inline": [
+      "https://github.com/mockito/mockito/releases"
     ]
   },
   "groupPrefixes": {
@@ -173,6 +287,9 @@
     "org.jetbrains.compose": [
       "https://github.com/JetBrains/compose-multiplatform/releases"
     ],
+    "org.jetbrains.dokka": [
+      "https://github.com/Kotlin/dokka/releases"
+    ],
     "io.ktor": [
       "https://github.com/ktorio/ktor/releases"
     ],
@@ -189,6 +306,12 @@
     ],
     "app.cash.sqldelight": [
       "https://github.com/sqldelight/sqldelight/releases"
+    ],
+    "app.cash.paparazzi": [
+      "https://github.com/cashapp/paparazzi/releases"
+    ],
+    "app.cash.turbine": [
+      "https://github.com/cashapp/turbine/releases"
     ],
     "com.squareup.okhttp3": [
       "https://square.github.io/okhttp/changelogs/changelog/"
@@ -211,11 +334,59 @@
     "com.google.accompanist": [
       "https://github.com/google/accompanist/releases"
     ],
+    "com.google.android.gms": [
+      "https://developers.google.com/android/guides/releases"
+    ],
+    "com.google.mlkit": [
+      "https://developers.google.com/ml-kit/release-notes"
+    ],
     "com.android": [
       "https://developer.android.com/build/releases/gradle-plugin"
     ],
     "org.koin": [
       "https://github.com/InsertKoinIO/koin/releases"
+    ],
+    "io.detekt": [
+      "https://github.com/detekt/detekt/releases"
+    ],
+    "org.jetbrains.kotlinx": [
+      "https://github.com/Kotlin/kotlinx.coroutines/releases"
+    ],
+    "io.opentelemetry.android": [
+      "https://github.com/open-telemetry/opentelemetry-android/releases"
+    ],
+    "io.opentelemetry": [
+      "https://github.com/open-telemetry/opentelemetry-java/releases"
+    ],
+    "com.willowtreeapps.assertk": [
+      "https://github.com/willowtreeapps/assertk/releases"
+    ],
+    "com.github.skydoves": [
+      "https://github.com/skydoves"
+    ],
+    "com.google.android.play": [
+      "https://developer.android.com/reference/com/google/android/play/core/release-notes"
+    ],
+    "com.google.maps.android": [
+      "https://github.com/googlemaps/android-maps-compose/releases"
+    ],
+    "com.google.zxing": [
+      "https://github.com/zxing/zxing/releases"
+    ],
+    "com.salesforce.marketingcloud": [
+      "https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/release-notes/release-notes.html"
+    ],
+    "com.scottyab": [
+      "https://github.com/scottyab/rootbeer/releases"
+    ],
+    "io.mockk": [
+      "https://github.com/mockk/mockk/releases"
+    ],
+    "org.hamcrest": [
+      "https://github.com/hamcrest/JavaHamcrest/releases"
+    ],
+    "org.mockito": [
+      "https://github.com/mockito/mockito/releases"
     ]
   }
 }

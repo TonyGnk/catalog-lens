@@ -40,6 +40,7 @@ intellijPlatform {
         }
         changeNotes = """
             <ul>
+                <li>0.5.4: expanded bundled artifact map — added changelog links for Paparazzi, detekt, ktlint, Turbine, Dokka, ML Kit, OpenTelemetry, mockk, Mockito, Hamcrest, assertk, Compose Hot Reload, koin-annotations, flow-preferences, JWTDecode, compose-stable-marker, and others; new group-prefix fallbacks for GMS, Google Maps, ZXing, Salesforce Marketing Cloud, and more.</li>
                 <li>0.5.3: sort preview now lists each unsorted group with a checkbox — pick exactly which groups to sort, with a live diff preview. Safer apply: keeps caret and scroll position, aborts if the document changed underneath, dialog size is remembered. Quoted keys now sort by their unquoted name.</li>
                 <li>0.5.2: sort preview result pane editable — revert individual hunks before applying.</li>
                 <li>0.5.1: maintenance release — links always open in the system browser.</li>

@@ -15,7 +15,7 @@ Mapping keys accept three forms: exact `group:artifact`, a Gradle plugin ID, or 
 
 ## Installation
 
-Until the plugin is live on JetBrains Marketplace: download (or build) the ZIP and install via `Settings → Plugins → ⚙ → Install Plugin from Disk…`. Requires IntelliJ-based IDE 2025.1+ (Android Studio Narwhal or newer).
+Install from JetBrains Marketplace via `Settings → Plugins → Marketplace → search "CatalogLens"`. Requires IntelliJ-based IDE 2025.1+ (Android Studio Narwhal or newer).
 
 ## Contributing
 
@@ -56,8 +56,6 @@ Prefer official release-notes pages over generic repository roots. Bug reports a
 A sample catalog for manual testing lives at `sample/gradle/libs.versions.toml`.
 
 ### Publishing
-
-First Marketplace upload is manual: `./gradlew buildPlugin`, then upload `build/distributions/CatalogLens-<version>.zip` at [plugins.jetbrains.com](https://plugins.jetbrains.com) → Add new plugin. Subsequent releases:
 
 ```bash
 PUBLISH_TOKEN=… CERTIFICATE_CHAIN=… PRIVATE_KEY=… PRIVATE_KEY_PASSWORD=… ./gradlew publishPlugin
