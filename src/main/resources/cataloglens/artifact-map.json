@@ -98,6 +98,9 @@
     "com.android.tools.build:gradle": [
       "https://developer.android.com/build/releases/gradle-plugin"
     ],
+    "com.android.tools:desugar_jdk_libs": [
+      "https://github.com/google/desugar_jdk_libs/blob/master/CHANGELOG.md"
+    ],
     "com.facebook.shimmer:shimmer": [
       "https://github.com/facebookarchive/shimmer-android/releases"
     ],
@@ -194,6 +197,9 @@
     "androidx.arch.core:core-testing": [
       "https://developer.android.com/jetpack/androidx/releases/arch-core"
     ],
+    "androidx.appcompat:appcompat": [
+      "https://developer.android.com/jetpack/androidx/releases/appcompat"
+    ],
     "androidx.biometric:biometric": [
       "https://developer.android.com/jetpack/androidx/releases/biometric"
     ],
@@ -226,6 +232,9 @@
     ],
     "androidx.security:security-crypto-ktx": [
       "https://developer.android.com/jetpack/androidx/releases/security"
+    ],
+    "androidx.sqlite:sqlite-bundled": [
+      "https://developer.android.com/jetpack/androidx/releases/sqlite"
     ],
     "androidx.webkit:webkit": [
       "https://developer.android.com/jetpack/androidx/releases/webkit"
@@ -306,6 +315,9 @@
     ],
     "androidx.activity": [
       "https://developer.android.com/jetpack/androidx/releases/activity"
+    ],
+    "androidx.appcompat": [
+      "https://developer.android.com/jetpack/androidx/releases/appcompat"
     ],
     "androidx.biometric": [
       "https://developer.android.com/jetpack/androidx/releases/biometric"
