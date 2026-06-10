@@ -25,6 +25,17 @@
       "https://square.github.io/leakcanary/changelog/",
       "https://github.com/square/leakcanary/releases"
     ],
+    "com.squareup.wire:wire-runtime": [
+      "https://github.com/square/wire/releases"
+    ],
+    "com.squareup.picasso:picasso": [
+      "https://github.com/square/picasso/blob/master/CHANGELOG.md",
+      "https://github.com/square/picasso/releases"
+    ],
+    "com.squareup:kotlinpoet": [
+      "https://square.github.io/kotlinpoet/changelog/",
+      "https://github.com/square/kotlinpoet/releases"
+    ],
     "com.google.code.gson:gson": [
       "https://github.com/google/gson/releases"
     ],
@@ -78,6 +89,9 @@
     ],
     "app.cash.turbine:turbine": [
       "https://github.com/cashapp/turbine/releases"
+    ],
+    "app.cash.molecule:molecule-runtime": [
+      "https://github.com/cashapp/molecule/releases"
     ],
     "org.robolectric:robolectric": [
       "https://github.com/robolectric/robolectric/releases"
@@ -295,6 +309,40 @@
     ],
     "org.mockito:mockito-inline": [
       "https://github.com/mockito/mockito/releases"
+    ],
+    "com.slack.circuit:circuit-foundation": [
+      "https://github.com/slackhq/circuit/releases",
+      "https://slackhq.github.io/circuit/changelog/"
+    ],
+    "io.sentry:sentry-android": [
+      "https://github.com/getsentry/sentry-java/releases"
+    ],
+    "com.arkivanov.decompose:decompose": [
+      "https://github.com/arkivanov/Decompose/releases"
+    ],
+    "com.arkivanov.mvikotlin:mvikotlin": [
+      "https://github.com/arkivanov/MVIKotlin/releases"
+    ],
+    "io.arrow-kt:arrow-core": [
+      "https://github.com/arrow-kt/arrow/releases"
+    ],
+    "com.github.ben-manes.versions": [
+      "https://github.com/ben-manes/gradle-versions-plugin/releases"
+    ],
+    "nl.littlerobots.version-catalog-update": [
+      "https://github.com/littlerobots/version-catalog-update-plugin/releases"
+    ],
+    "com.vanniktech.maven.publish": [
+      "https://github.com/vanniktech/gradle-maven-publish-plugin/releases"
+    ],
+    "com.diffplug.spotless": [
+      "https://github.com/diffplug/spotless/releases"
+    ],
+    "com.autonomousapps.dependency-analysis": [
+      "https://github.com/autonomousapps/dependency-analysis-gradle-plugin/releases"
+    ],
+    "com.autonomousapps.build-health": [
+      "https://github.com/autonomousapps/dependency-analysis-gradle-plugin/releases"
     ]
   },
   "groupPrefixes": {
@@ -437,6 +485,9 @@
     "app.cash.turbine": [
       "https://github.com/cashapp/turbine/releases"
     ],
+    "app.cash.molecule": [
+      "https://github.com/cashapp/molecule/releases"
+    ],
     "com.squareup.okhttp3": [
       "https://square.github.io/okhttp/changelogs/changelog/"
     ],
@@ -445,6 +496,9 @@
     ],
     "com.squareup.moshi": [
       "https://github.com/square/moshi/blob/master/CHANGELOG.md"
+    ],
+    "com.squareup.wire": [
+      "https://github.com/square/wire/releases"
     ],
     "com.google.dagger": [
       "https://github.com/google/dagger/releases"
@@ -520,6 +574,43 @@
     ],
     "org.mockito": [
       "https://github.com/mockito/mockito/releases"
+    ],
+    "com.slack.circuit": [
+      "https://github.com/slackhq/circuit/releases",
+      "https://slackhq.github.io/circuit/changelog/"
+    ],
+    "io.sentry": [
+      "https://github.com/getsentry/sentry-java/releases"
+    ],
+    "com.arkivanov.decompose": [
+      "https://github.com/arkivanov/Decompose/releases"
+    ],
+    "com.arkivanov.mvikotlin": [
+      "https://github.com/arkivanov/MVIKotlin/releases"
+    ],
+    "io.arrow-kt": [
+      "https://github.com/arrow-kt/arrow/releases"
+    ],
+    "co.touchlab": [
+      "https://github.com/touchlab/Kermit/releases"
+    ],
+    "me.saket.telephoto": [
+      "https://github.com/saket/telephoto/releases"
+    ],
+    "io.reactivex.rxjava3": [
+      "https://github.com/ReactiveX/RxJava/releases"
+    ],
+    "io.reactivex.rxjava2": [
+      "https://github.com/ReactiveX/RxJava/releases"
+    ],
+    "com.vanniktech": [
+      "https://github.com/vanniktech/gradle-maven-publish-plugin/releases"
+    ],
+    "com.diffplug.spotless": [
+      "https://github.com/diffplug/spotless/releases"
+    ],
+    "com.autonomousapps": [
+      "https://github.com/autonomousapps/dependency-analysis-gradle-plugin/releases"
     ]
   }
 }
