@@ -188,11 +188,65 @@
     "org.jetbrains.kotlinx:kotlinx-serialization-protobuf": [
       "https://github.com/Kotlin/kotlinx.serialization/releases"
     ],
+    "androidx.arch.core:core-runtime": [
+      "https://developer.android.com/jetpack/androidx/releases/arch-core"
+    ],
+    "androidx.arch.core:core-testing": [
+      "https://developer.android.com/jetpack/androidx/releases/arch-core"
+    ],
+    "androidx.biometric:biometric": [
+      "https://developer.android.com/jetpack/androidx/releases/biometric"
+    ],
+    "androidx.biometric:biometric-ktx": [
+      "https://developer.android.com/jetpack/androidx/releases/biometric"
+    ],
+    "androidx.browser:browser": [
+      "https://developer.android.com/jetpack/androidx/releases/browser"
+    ],
+    "androidx.compose.ui:ui-test-junit4": [
+      "https://developer.android.com/jetpack/androidx/releases/compose-ui"
+    ],
+    "androidx.compose.ui:ui-test-manifest": [
+      "https://developer.android.com/jetpack/androidx/releases/compose-ui"
+    ],
+    "androidx.media3:media3-exoplayer": [
+      "https://developer.android.com/jetpack/androidx/releases/media3"
+    ],
+    "androidx.media3:media3-exoplayer-hls": [
+      "https://developer.android.com/jetpack/androidx/releases/media3"
+    ],
+    "androidx.media3:media3-ui": [
+      "https://developer.android.com/jetpack/androidx/releases/media3"
+    ],
     "androidx.navigation.safeargs": [
       "https://developer.android.com/jetpack/androidx/releases/navigation"
     ],
+    "androidx.security:security-crypto": [
+      "https://developer.android.com/jetpack/androidx/releases/security"
+    ],
+    "androidx.security:security-crypto-ktx": [
+      "https://developer.android.com/jetpack/androidx/releases/security"
+    ],
+    "androidx.webkit:webkit": [
+      "https://developer.android.com/jetpack/androidx/releases/webkit"
+    ],
+    "com.appsflyer:af-android-sdk": [
+      "https://support.appsflyer.com/hc/en-us/articles/115001256006-AppsFlyer-Android-SDK-release-notes"
+    ],
     "com.auth0.android:jwtdecode": [
       "https://github.com/auth0/JWTDecode.Android/releases"
+    ],
+    "com.dynatrace.tools.android:gradle-plugin": [
+      "https://docs.dynatrace.com/docs/whats-new/oneagent-mobile"
+    ],
+    "com.fasterxml.jackson.core:jackson-annotations": [
+      "https://github.com/FasterXML/jackson/wiki"
+    ],
+    "com.fasterxml.jackson.core:jackson-core": [
+      "https://github.com/FasterXML/jackson/wiki"
+    ],
+    "com.fasterxml.jackson.core:jackson-databind": [
+      "https://github.com/FasterXML/jackson/wiki"
     ],
     "com.github.skydoves:compose-stable-marker": [
       "https://github.com/skydoves/compose-stable-marker/releases"
@@ -219,7 +273,7 @@
       "https://github.com/PierfrancescoSoffritti/android-youtube-player/releases"
     ],
     "com.salesforce.marketingcloud:marketingcloudsdk": [
-      "https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/release-notes/release-notes.html"
+      "https://developer.salesforce.com/docs/platform/mobile-sdk/overview"
     ],
     "com.scottyab:rootbeer-lib": [
       "https://github.com/scottyab/rootbeer/releases"
@@ -238,14 +292,26 @@
     "androidx": [
       "https://developer.android.com/jetpack/androidx/versions"
     ],
+    "androidx.arch.core": [
+      "https://developer.android.com/jetpack/androidx/releases/arch-core"
+    ],
     "androidx.compose": [
       "https://developer.android.com/jetpack/androidx/releases/compose"
+    ],
+    "androidx.compose.ui": [
+      "https://developer.android.com/jetpack/androidx/releases/compose-ui"
     ],
     "androidx.core": [
       "https://developer.android.com/jetpack/androidx/releases/core"
     ],
     "androidx.activity": [
       "https://developer.android.com/jetpack/androidx/releases/activity"
+    ],
+    "androidx.biometric": [
+      "https://developer.android.com/jetpack/androidx/releases/biometric"
+    ],
+    "androidx.browser": [
+      "https://developer.android.com/jetpack/androidx/releases/browser"
     ],
     "androidx.fragment": [
       "https://developer.android.com/jetpack/androidx/releases/fragment"
@@ -274,6 +340,12 @@
     "androidx.media3": [
       "https://developer.android.com/jetpack/androidx/releases/media3"
     ],
+    "androidx.security": [
+      "https://developer.android.com/jetpack/androidx/releases/security"
+    ],
+    "androidx.webkit": [
+      "https://developer.android.com/jetpack/androidx/releases/webkit"
+    ],
     "androidx.hilt": [
       "https://developer.android.com/jetpack/androidx/releases/hilt"
     ],
@@ -297,12 +369,10 @@
       "https://github.com/InsertKoinIO/koin/releases"
     ],
     "io.coil-kt": [
-      "https://github.com/coil-kt/coil/blob/main/CHANGELOG.md",
-      "https://github.com/coil-kt/coil/releases"
+      "https://github.com/coil-kt/coil/blob/main/CHANGELOG.md"
     ],
     "io.coil-kt.coil3": [
-      "https://github.com/coil-kt/coil/blob/main/CHANGELOG.md",
-      "https://github.com/coil-kt/coil/releases"
+      "https://github.com/coil-kt/coil/blob/main/CHANGELOG.md"
     ],
     "app.cash.sqldelight": [
       "https://github.com/sqldelight/sqldelight/releases"
@@ -364,6 +434,15 @@
     "com.github.skydoves": [
       "https://github.com/skydoves"
     ],
+    "com.appsflyer": [
+      "https://support.appsflyer.com/hc/en-us/articles/115001256006-AppsFlyer-Android-SDK-release-notes"
+    ],
+    "com.dynatrace.tools.android": [
+      "https://docs.dynatrace.com/docs/whats-new/oneagent-mobile"
+    ],
+    "com.fasterxml.jackson.core": [
+      "https://github.com/FasterXML/jackson/wiki"
+    ],
     "com.google.android.play": [
       "https://developer.android.com/reference/com/google/android/play/core/release-notes"
     ],
@@ -374,7 +453,7 @@
       "https://github.com/zxing/zxing/releases"
     ],
     "com.salesforce.marketingcloud": [
-      "https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/release-notes/release-notes.html"
+      "https://developer.salesforce.com/docs/platform/mobile-sdk/overview"
     ],
     "com.scottyab": [
       "https://github.com/scottyab/rootbeer/releases"
