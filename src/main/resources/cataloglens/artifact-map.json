@@ -301,23 +301,17 @@
     "androidx": [
       "https://developer.android.com/jetpack/androidx/versions"
     ],
-    "androidx.arch.core": [
-      "https://developer.android.com/jetpack/androidx/releases/arch-core"
-    ],
-    "androidx.compose": [
-      "https://developer.android.com/jetpack/androidx/releases/compose"
-    ],
-    "androidx.compose.ui": [
-      "https://developer.android.com/jetpack/androidx/releases/compose-ui"
-    ],
-    "androidx.core": [
-      "https://developer.android.com/jetpack/androidx/releases/core"
-    ],
     "androidx.activity": [
       "https://developer.android.com/jetpack/androidx/releases/activity"
     ],
     "androidx.appcompat": [
       "https://developer.android.com/jetpack/androidx/releases/appcompat"
+    ],
+    "androidx.arch.core": [
+      "https://developer.android.com/jetpack/androidx/releases/arch-core"
+    ],
+    "androidx.benchmark": [
+      "https://developer.android.com/jetpack/androidx/releases/benchmark"
     ],
     "androidx.biometric": [
       "https://developer.android.com/jetpack/androidx/releases/biometric"
@@ -325,44 +319,92 @@
     "androidx.browser": [
       "https://developer.android.com/jetpack/androidx/releases/browser"
     ],
-    "androidx.fragment": [
-      "https://developer.android.com/jetpack/androidx/releases/fragment"
+    "androidx.camera": [
+      "https://developer.android.com/jetpack/androidx/releases/camera"
     ],
-    "androidx.lifecycle": [
-      "https://developer.android.com/jetpack/androidx/releases/lifecycle"
+    "androidx.cardview": [
+      "https://developer.android.com/jetpack/androidx/releases/cardview"
     ],
-    "androidx.navigation": [
-      "https://developer.android.com/jetpack/androidx/releases/navigation"
+    "androidx.compose": [
+      "https://developer.android.com/jetpack/androidx/releases/compose"
     ],
-    "androidx.room": [
-      "https://developer.android.com/jetpack/androidx/releases/room"
+    "androidx.compose.ui": [
+      "https://developer.android.com/jetpack/androidx/releases/compose-ui"
     ],
-    "androidx.work": [
-      "https://developer.android.com/jetpack/androidx/releases/work"
+    "androidx.constraintlayout": [
+      "https://developer.android.com/jetpack/androidx/releases/constraintlayout"
+    ],
+    "androidx.core": [
+      "https://developer.android.com/jetpack/androidx/releases/core"
+    ],
+    "androidx.credentials": [
+      "https://developer.android.com/jetpack/androidx/releases/credentials"
     ],
     "androidx.datastore": [
       "https://developer.android.com/jetpack/androidx/releases/datastore"
     ],
-    "androidx.paging": [
-      "https://developer.android.com/jetpack/androidx/releases/paging"
+    "androidx.dynamicanimation": [
+      "https://developer.android.com/jetpack/androidx/releases/dynamicanimation"
     ],
-    "androidx.camera": [
-      "https://developer.android.com/jetpack/androidx/releases/camera"
+    "androidx.emoji": [
+      "https://developer.android.com/jetpack/androidx/releases/emoji"
     ],
-    "androidx.media3": [
-      "https://developer.android.com/jetpack/androidx/releases/media3"
+    "androidx.emoji2": [
+      "https://developer.android.com/jetpack/androidx/releases/emoji2"
     ],
-    "androidx.security": [
-      "https://developer.android.com/jetpack/androidx/releases/security"
+    "androidx.exifinterface": [
+      "https://developer.android.com/jetpack/androidx/releases/exifinterface"
     ],
-    "androidx.webkit": [
-      "https://developer.android.com/jetpack/androidx/releases/webkit"
+    "androidx.fragment": [
+      "https://developer.android.com/jetpack/androidx/releases/fragment"
     ],
     "androidx.hilt": [
       "https://developer.android.com/jetpack/androidx/releases/hilt"
     ],
+    "androidx.lifecycle": [
+      "https://developer.android.com/jetpack/androidx/releases/lifecycle"
+    ],
+    "androidx.media3": [
+      "https://developer.android.com/jetpack/androidx/releases/media3"
+    ],
+    "androidx.navigation": [
+      "https://developer.android.com/jetpack/androidx/releases/navigation"
+    ],
+    "androidx.paging": [
+      "https://developer.android.com/jetpack/androidx/releases/paging"
+    ],
+    "androidx.recyclerview": [
+      "https://developer.android.com/jetpack/androidx/releases/recyclerview"
+    ],
+    "androidx.room": [
+      "https://developer.android.com/jetpack/androidx/releases/room"
+    ],
+    "androidx.savedstate": [
+      "https://developer.android.com/jetpack/androidx/releases/savedstate"
+    ],
+    "androidx.security": [
+      "https://developer.android.com/jetpack/androidx/releases/security"
+    ],
+    "androidx.startup": [
+      "https://developer.android.com/jetpack/androidx/releases/startup"
+    ],
     "androidx.test": [
       "https://developer.android.com/jetpack/androidx/releases/test"
+    ],
+    "androidx.tracing": [
+      "https://developer.android.com/jetpack/androidx/releases/tracing"
+    ],
+    "androidx.transition": [
+      "https://developer.android.com/jetpack/androidx/releases/transition"
+    ],
+    "androidx.webkit": [
+      "https://developer.android.com/jetpack/androidx/releases/webkit"
+    ],
+    "androidx.window": [
+      "https://developer.android.com/jetpack/androidx/releases/window"
+    ],
+    "androidx.work": [
+      "https://developer.android.com/jetpack/androidx/releases/work"
     ],
     "org.jetbrains.kotlin": [
       "https://github.com/JetBrains/kotlin/releases",
