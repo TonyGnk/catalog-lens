@@ -33,6 +33,12 @@
 
         <editorFloatingToolbarProvider
             implementation="io.github.tonygnk.cataloglens.sort.SortCatalogFloatingToolbarProvider"/>
+
+        <!-- Inline GitHub releases viewer, opened from [versions] gutter icons -->
+        <toolWindow id="CatalogLens Releases" anchor="left"
+            canCloseContents="false"
+            icon="AllIcons.General.Web"
+            factoryClass="io.github.tonygnk.cataloglens.releases.ReleasesToolWindowFactory"/>
     </extensions>
 
     <actions>
