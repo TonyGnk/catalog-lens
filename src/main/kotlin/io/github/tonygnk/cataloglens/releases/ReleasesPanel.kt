@@ -17,6 +17,7 @@ import com.intellij.util.ui.UIUtil
 import java.awt.BorderLayout
 import java.awt.Component
 import java.awt.Dimension
+import java.awt.Point
 import java.awt.Rectangle
 import javax.swing.Box
 import javax.swing.BoxLayout
@@ -93,10 +94,8 @@ class ReleasesPanel(private val project: Project) : JBPanel<ReleasesPanel>(Borde
         }
         content.revalidate()
         content.repaint()
-        if (scrollPos != null) {
-            // Re-render after a write rebuilds the card list; without this the viewport jumps
-            // (focus leaves the removed ActionLink and the scroll pane resets). Pin it back.
-            SwingUtilities.invokeLater { scrollPane.viewport.viewPosition = scrollPos }
+        SwingUtilities.invokeLater {
+            scrollPane.viewport.viewPosition = scrollPos ?: Point(0, 0)
         }
     }
 

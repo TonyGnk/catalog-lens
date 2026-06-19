@@ -8,4 +8,5 @@ local.properties
 *.pem
 *.crt
 research-data.md
+README-technical.md
 .DS_Store
