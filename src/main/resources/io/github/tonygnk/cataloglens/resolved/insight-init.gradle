@@ -1,0 +1,279 @@
+import java.util.function.Function
+import org.gradle.api.artifacts.Configuration
+import org.gradle.api.artifacts.ModuleDependency
+import org.gradle.tooling.provider.model.ToolingModelBuilder
+import org.gradle.tooling.provider.model.ToolingModelBuilderRegistry
+import org.gradle.api.artifacts.component.ModuleComponentSelector
+import org.gradle.api.artifacts.result.ResolvedDependencyResult
+import org.gradle.api.artifacts.result.UnresolvedDependencyResult
+
+class CatalogLensSelectionReason implements Serializable {
+    String cause
+    String description
+}
+
+class CatalogLensRequestedByEdge implements Serializable {
+    String fromDisplayName
+    String requestedVersion
+    boolean constraint
+}
+
+class CatalogLensUnresolvedEdge implements Serializable {
+    String requested
+    String failureMessage
+}
+
+class CatalogLensResolvedNode implements Serializable {
+    String group
+    String name
+    String selectedVersion
+    List selectionReasons = []
+    List requestedBy = []
+}
+
+class CatalogLensComponent implements Serializable {
+    String group
+    String name
+    String version
+    List selectionReasons = []
+    List requestedBy = []
+}
+
+class CatalogLensRejected implements Serializable {
+    String coordinate
+    String reason
+}
+
+class CatalogLensExcluded implements Serializable {
+    String excluded
+    String origin
+}
+
+class CatalogLensInsightModel implements Serializable {
+    String requested
+    String configurationName
+    String projectPath
+    CatalogLensResolvedNode resolved
+    List unresolved = []
+    String errorMessage
+    List availableConfigurations = []
+}
+
+class CatalogLensGraphModel implements Serializable {
+    String configurationName
+    String projectPath
+    String errorMessage
+    List components = []
+    List rejected = []
+    List excluded = []
+    List availableConfigurations = []
+}
+
+class CatalogLensModelBuilder implements ToolingModelBuilder {
+
+    private static boolean isRuntime(String name) {
+        return name == "runtimeClasspath" || name.endsWith("RuntimeClasspath")
+    }
+
+    private static boolean isCompile(String name) {
+        return name == "compileClasspath" || name.endsWith("CompileClasspath")
+    }
+
+    private static boolean isClasspath(String name) {
+        return isRuntime(name) || isCompile(name)
+    }
+
+    private static boolean isTest(String name) {
+        return name.contains("Test")
+    }
+
+    // Higher is a better default: an application module's release runtime classpath wins.
+    private static int score(Project p, Configuration c) {
+        def n = c.name
+        int s = 0
+        if (p.plugins.hasPlugin("com.android.application")) s += 1000
+        if (isRuntime(n)) s += 100 else if (isCompile(n)) s += 50
+        if (n.toLowerCase().contains("release")) s += 20
+        return s
+    }
+
+    boolean canBuild(String modelName) {
+        return modelName == "%INSIGHT_FQN%" || modelName == "%GRAPH_FQN%"
+    }
+
+    Object buildAll(String modelName, Project requestProject) {
+        def insight = (modelName == "%INSIGHT_FQN%")
+        def model = insight ? new CatalogLensInsightModel() : new CatalogLensGraphModel()
+        def coordinate = "%TARGET_GA%"
+        if (insight) model.requested = coordinate
+        try {
+            def root = requestProject.rootProject
+
+            // Cheap discovery: every non-test resolvable classpath configuration by NAME only
+            // (does not resolve the graph), as scope candidates and as ":path:configurationName".
+            def candidates = []
+            root.allprojects.each { p ->
+                p.configurations.findAll { it.canBeResolved && isClasspath(it.name) && !isTest(it.name) }
+                    .each { candidates << [project: p, cfg: it] }
+            }
+            model.availableConfigurations = candidates.collect { it.project.path + ":" + it.cfg.name }.sort()
+
+            // Resolve exactly one (module, configuration): the explicit one if given, else the best default.
+            def targetPath = "%TARGET_PROJECT_PATH%"
+            def configName = "%CONFIG_NAME%"
+            def target
+            def cfgName
+            if (configName?.trim()) {
+                target = targetPath?.trim() ? root.findProject(targetPath) : root
+                if (target == null) {
+                    model.errorMessage = "Project '" + targetPath + "' not found in this build"
+                    return model
+                }
+                def cfg = target.configurations.findByName(configName)
+                if (cfg == null || !cfg.canBeResolved) {
+                    model.errorMessage = "Configuration '" + configName + "' is missing or not resolvable on " +
+                        target.path + "."
+                    return model
+                }
+                cfgName = cfg.name
+            } else {
+                def best = candidates.max { score(it.project, it.cfg) }
+                if (best == null) {
+                    model.errorMessage = "No resolvable runtime/compile classpath configuration found in this build."
+                    return model
+                }
+                target = best.project
+                cfgName = best.cfg.name
+            }
+            model.projectPath = target.path
+            model.configurationName = cfgName
+            def needNode = insight
+
+            // Resolve under the target project's exclusive lock. Resolving a configuration of a
+            // project other than the one the builder ran on (or under parallel execution) otherwise
+            // fails with "attempted without an exclusive lock". The full graph walk must happen
+            // inside the lock (the result resolves lazily); only plain data leaves the closure.
+            def extracted = target.owner.fromMutableState({ Project p ->
+                def cfg = p.configurations.getByName(cfgName)
+                def result = cfg.incoming.resolutionResult
+                def allDeps = result.allDependencies
+
+                // Group resolved edges by selected component id for requested-by lookup.
+                def edgesBySelected = [:].withDefault { [] }
+                allDeps.findAll { it instanceof ResolvedDependencyResult }.each { dep ->
+                    edgesBySelected[dep.selected.id] << dep
+                }
+                def buildReasons = { comp ->
+                    comp.selectionReason.descriptions.collect { d ->
+                        def r = new CatalogLensSelectionReason()
+                        r.cause = d.cause.name()
+                        r.description = d.description
+                        return r
+                    }
+                }
+                def buildEdges = { comp ->
+                    edgesBySelected[comp.id].collect { dep ->
+                        def e = new CatalogLensRequestedByEdge()
+                        e.fromDisplayName = dep.from.id.displayName
+                        def req = dep.requested
+                        e.requestedVersion = (req instanceof ModuleComponentSelector) ? req.version : null
+                        e.constraint = dep.constraint
+                        return e
+                    }
+                }
+
+                def node = null
+                def components = []
+                def rejected = []
+                if (needNode) {
+                    def match = result.allComponents.find { c ->
+                        def mv = c.moduleVersion
+                        mv != null && (mv.group + ":" + mv.name) == coordinate
+                    }
+                    if (match != null) {
+                        def mv = match.moduleVersion
+                        node = new CatalogLensResolvedNode()
+                        node.group = mv.group
+                        node.name = mv.name
+                        node.selectedVersion = mv.version
+                        node.selectionReasons = buildReasons(match)
+                        node.requestedBy = buildEdges(match)
+                    }
+                } else {
+                    result.allComponents.each { c ->
+                        def mv = c.moduleVersion
+                        if (mv == null) return
+                        def comp = new CatalogLensComponent()
+                        comp.group = mv.group
+                        comp.name = mv.name
+                        comp.version = mv.version
+                        comp.selectionReasons = buildReasons(c)
+                        comp.requestedBy = buildEdges(c)
+                        components << comp
+                        comp.selectionReasons.each { rr ->
+                            if (rr.cause == "REJECTION") {
+                                def rc = new CatalogLensRejected()
+                                rc.coordinate = mv.group + ":" + mv.name + ":" + mv.version
+                                rc.reason = rr.description
+                                rejected << rc
+                            }
+                        }
+                    }
+                }
+
+                def unresolved = allDeps.findAll { it instanceof UnresolvedDependencyResult }.collect { dep ->
+                    def u = new CatalogLensUnresolvedEdge()
+                    u.requested = dep.attempted.displayName
+                    u.failureMessage = dep.failure?.message
+                    return u
+                }
+                if (!needNode) {
+                    unresolved.each { u ->
+                        def rc = new CatalogLensRejected()
+                        rc.coordinate = u.requested
+                        rc.reason = u.failureMessage
+                        rejected << rc
+                    }
+                }
+
+                // Excluded: inferred from declaration-side exclude rules (config + per-dependency).
+                def excluded = []
+                if (!needNode) {
+                    cfg.excludeRules.each { er ->
+                        def ex = new CatalogLensExcluded()
+                        ex.excluded = (er.group ?: "*") + ":" + (er.module ?: "*")
+                        ex.origin = "configuration " + cfgName
+                        excluded << ex
+                    }
+                    cfg.allDependencies.findAll { it instanceof ModuleDependency }.each { d ->
+                        d.excludeRules.each { er ->
+                            def ex = new CatalogLensExcluded()
+                            ex.excluded = (er.group ?: "*") + ":" + (er.module ?: "*")
+                            ex.origin = (d.group ?: "?") + ":" + (d.name ?: "?")
+                            excluded << ex
+                        }
+                    }
+                }
+
+                return [node: node, unresolved: unresolved, components: components, rejected: rejected, excluded: excluded]
+            } as Function)
+
+            if (insight) {
+                model.resolved = extracted.node
+                model.unresolved = extracted.unresolved
+            } else {
+                model.components = extracted.components
+                model.rejected = extracted.rejected
+                model.excluded = extracted.excluded
+            }
+        } catch (Throwable t) {
+            model.errorMessage = t.class.simpleName + ": " + t.message
+        }
+        return model
+    }
+}
+
+gradle.rootProject { project ->
+    def registry = project.services.get(ToolingModelBuilderRegistry)
+    registry.register(new CatalogLensModelBuilder())
+}

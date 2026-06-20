@@ -4,17 +4,20 @@
     <vendor email="tonygnkpublic@gmail.com" url="https://github.com/tonygnk">tonygnk</vendor>
 
     <description><![CDATA[
-        Makes Gradle version catalogs (<code>libs.versions.toml</code>) navigable.
+        Makes Gradle version catalogs (<code>libs.versions.toml</code>) navigable, and shows what they actually resolve to.
         <ul>
             <li>Ctrl/Cmd-click any <code>[libraries]</code> entry to open its Maven Central or MvnRepository page.</li>
-            <li>Gutter icons on <code>[versions]</code> entries link to upstream release notes and changelogs.</li>
-            <li>Sort catalog groups A&#8594;Z &#8212; floating editor icon opens a diff preview; tick exactly the groups you want sorted, then apply or cancel. Blank lines and comments delimit groups and stay in place.</li>
+            <li>Gutter icons on <code>[versions]</code> entries open upstream release notes inline in a tool window (GitHub releases and developer.android.com changelogs), with one-click "use this version" pinning.</li>
+            <li>Sort catalog groups A&#8594;Z &#8212; a floating editor icon opens a diff preview; tick exactly the groups you want sorted, then apply or cancel. Blank lines and comments delimit groups and stay in place.</li>
+            <li>Resolved-version inlay hints when a dependency resolves to a version other than the one declared, a "Why this version?" insight that explains the selection, and a catalog-vs-resolved delta &#8212; all in the "CatalogLens Resolved" tool window. (Requires the bundled Gradle plugin.)</li>
+            <li>Alt+Enter on any entry to copy its Gradle dependency declaration to the clipboard.</li>
         </ul>
-        All links are built locally — no network access while editing.
+        Catalog links are built locally — no network access just to edit.
     ]]></description>
 
     <depends>com.intellij.modules.platform</depends>
     <depends>org.toml.lang</depends>
+    <depends>org.jetbrains.plugins.gradle</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <psi.referenceContributor language="TOML"
@@ -39,6 +42,37 @@
             canCloseContents="false"
             icon="AllIcons.General.Web"
             factoryClass="io.github.tonygnk.cataloglens.releases.ReleasesToolWindowFactory"/>
+
+        <notificationGroup id="CatalogLens" displayType="BALLOON"/>
+
+        <!-- Resolved-dependencies feature (requires the Gradle plugin). -->
+        <toolWindow id="CatalogLens Resolved" anchor="right"
+            canCloseContents="false"
+            icon="AllIcons.Actions.Show"
+            factoryClass="io.github.tonygnk.cataloglens.resolved.ResolvedToolWindowFactory"/>
+
+        <!-- Surface 3: resolved-vs-declared inline overlay (requires a captured baseline) -->
+        <codeInsight.declarativeInlayProvider
+            language="TOML"
+            providerId="cataloglens.resolved.versions"
+            isEnabledByDefault="true"
+            group="OTHER_GROUP"
+            nameKey="inlay.resolved.versions.name"
+            bundle="messages.CatalogLensBundle"
+            implementationClass="io.github.tonygnk.cataloglens.resolved.inlay.ResolvedInlayProvider"/>
+        <codeInsight.declarativeInlayActionHandler
+            handlerId="cataloglens.resolved.why"
+            implementationClass="io.github.tonygnk.cataloglens.resolved.inlay.ResolvedInlayActionHandler"/>
+
+        <!-- Eagerly subscribe the baseline service to the IDE sync-notification topic on project open. -->
+        <postStartupActivity implementation="io.github.tonygnk.cataloglens.resolved.ResolvedBaselineStartup"/>
+
+        <!-- Alt+Enter on a catalog entry: copy the Gradle dependency declaration. -->
+        <intentionAction>
+            <language>TOML</language>
+            <className>io.github.tonygnk.cataloglens.copy.CopyDependencyDeclarationIntention</className>
+            <category>CatalogLens</category>
+        </intentionAction>
     </extensions>
 
     <actions>
@@ -52,5 +86,29 @@
         <group id="CatalogLens.SortToolbarGroup">
             <reference ref="CatalogLens.SortCatalog"/>
         </group>
+
+        <action id="CatalogLens.WhyThisVersion"
+                class="io.github.tonygnk.cataloglens.resolved.WhyThisVersionAction"
+                text="Why This Version? (Resolved)"
+                description="Resolve this artifact via Gradle and explain why this version was selected">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <!-- The reference baseline auto-bootstraps on the first sync; this stays in the editor right-click
+             only, as a manual override to (re)capture a non-standard or secondary catalog. -->
+        <action id="CatalogLens.CaptureBaseline"
+                class="io.github.tonygnk.cataloglens.resolved.CaptureBaselineAction"
+                text="Capture Resolved Baseline"
+                description="Resolve the full dependency graph for this catalog and snapshot it as the reference baseline"
+                icon="AllIcons.Actions.Refresh">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="CatalogLens.ComputeDelta"
+                class="io.github.tonygnk.cataloglens.resolved.ComputeDeltaAction"
+                text="Compute Resolved Delta"
+                description="Sync Gradle if needed, then diff the catalog against the captured baseline"
+                icon="AllIcons.Actions.Diff">
+            <add-to-group group-id="CatalogLens.SortToolbarGroup" anchor="last"/>
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
     </actions>
 </idea-plugin>

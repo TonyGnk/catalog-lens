@@ -19,6 +19,7 @@ class CatalogLensGlobalSettings : PersistentStateComponent<CatalogLensGlobalSett
     class State {
         var useBundledMap: Boolean = true
         var artifactUrlStyle: ArtifactUrlStyle = ArtifactUrlStyle.MAVEN_CENTRAL
+        var resolvedInlaysEnabled: Boolean = true
 
         // Seeded with a real sample row demonstrating the expected format: exact
         // "group:artifact" key mapped to its release-notes page. Not in the bundled map,

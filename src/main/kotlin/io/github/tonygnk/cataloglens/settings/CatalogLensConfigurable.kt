@@ -32,6 +32,11 @@ class CatalogLensConfigurable : Configurable {
                     )
                     .comment("Site opened when clicking a [libraries] entry")
             }
+            row {
+                checkBox("Show resolved-version inlay hints")
+                    .bindSelected({ settings.resolvedInlaysEnabled }, { settings.resolvedInlaysEnabled = it })
+                    .comment("End-of-line hints showing the resolved version when it differs from the declared one (requires a captured baseline)")
+            }
             group("Global Mappings") {
                 row {
                     cell(mappingsPanel.component).align(Align.FILL)

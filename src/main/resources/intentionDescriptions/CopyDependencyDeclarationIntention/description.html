@@ -1,0 +1,21 @@
+<html>
+<body>
+Copies a ready-to-paste Gradle Kotlin-DSL dependency declaration for the version-catalog
+entry under the caret to the clipboard.
+<p>
+On a <code>[libraries]</code> or <code>[bundles]</code> entry it copies an
+<code>implementation(...)</code> call; on a <code>[plugins]</code> entry it copies an
+<code>alias(...)</code> call. The catalog prefix is derived from the file name
+(<code>libs.versions.toml</code> &rarr; <code>libs</code>).
+</p>
+<!-- tooltip-example -->
+<pre><code>
+# in libs.versions.toml
+squareup-okhttp3 = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "squareupOkhttp3" }
+</code></pre>
+copies
+<pre><code>
+implementation(libs.squareup.okhttp3)
+</code></pre>
+</body>
+</html>

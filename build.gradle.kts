@@ -25,6 +25,7 @@ dependencies {
     intellijPlatform {
         intellijIdeaCommunity("2025.1")
         bundledPlugin("org.toml.lang")
+        bundledPlugin("org.jetbrains.plugins.gradle")
         testFramework(TestFrameworkType.Platform)
         zipSigner()
     }
@@ -41,6 +42,7 @@ intellijPlatform {
         }
         changeNotes = """
             <ul>
+                <li>0.7.5: new "Resolved Dependencies" surface — see what your version catalog actually resolves to, not just what it declares. End-of-line inlay hints in libs.versions.toml show the resolved version whenever it differs from the declared one. Click a hint (or right-click an entry → "Why this version?") to resolve the artifact through Gradle and see why that version was selected — selection reasons, the requested-by chain, and one-click re-resolution in another configuration — in a new "CatalogLens Resolved" tool window. Capture a resolved baseline, then "Compute Resolved Delta" to diff the catalog against it: what you changed, transitive ripples, catalog pins a transitive overrode, and rejected/excluded artifacts. Plus a new Alt+Enter intention on any [libraries], [bundles] or [plugins] entry to copy its Gradle dependency declaration — implementation(libs.…) / alias(libs.plugins.…) — to the clipboard. Requires the bundled Gradle plugin.</li>
                 <li>0.6.0: changelogs now open inline in a new "CatalogLens Releases" tool window instead of the browser. GitHub release pages are fetched via the REST API (tag, date, formatted notes, clickable links; cached 30 minutes for the unauthenticated rate limit) and developer.android.com pages (androidx, AGP, Play Core, …) are parsed and rendered the same way, split into per-version cards. The viewer knows your catalog version: the matching entry is marked "current", and every other version shows a "Use this version" link that pins it straight into libs.versions.toml (undoable). Theme-aware colors, selectable headers, soft-wrapping. Pages that can't be parsed fall back to the browser. Also expanded the bundled artifact map with many more AndroidX and third-party release links.</li>
                 <li>0.5.4: expanded bundled artifact map — added changelog links for Paparazzi, detekt, ktlint, Turbine, Dokka, ML Kit, OpenTelemetry, mockk, Mockito, Hamcrest, assertk, Compose Hot Reload, koin-annotations, flow-preferences, JWTDecode, compose-stable-marker, and others; new group-prefix fallbacks for GMS, Google Maps, ZXing, Salesforce Marketing Cloud, and more.</li>
                 <li>0.5.3: sort preview now lists each unsorted group with a checkbox — pick exactly which groups to sort, with a live diff preview. Safer apply: keeps caret and scroll position, aborts if the document changed underneath, dialog size is remembered. Quoted keys now sort by their unquoted name.</li>
