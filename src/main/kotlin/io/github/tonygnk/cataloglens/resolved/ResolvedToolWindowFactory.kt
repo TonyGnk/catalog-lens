@@ -35,15 +35,15 @@ class ResolvedToolWindowFactory : ToolWindowFactory, DumbAware {
         project.messageBus.connect(toolWindow.disposable).subscribe(
             ToolWindowManagerListener.TOPIC,
             object : ToolWindowManagerListener {
-                // The TOPIC is project-wide: the changed window must be checked, or hiding any other
-                // tool window would strip this one's stripe button.
+                // The TOPIC is project-wide and this 2-arg overload carries no changed window, so on a
+                // hide we re-check our own window's visibility instead of comparing ids — otherwise
+                // hiding any other tool window would strip this one's stripe button.
                 override fun stateChanged(
                     manager: ToolWindowManager,
-                    changedToolWindow: ToolWindow,
                     changeType: ToolWindowManagerListener.ToolWindowManagerEventType,
                 ) {
                     if (changeType == ToolWindowManagerListener.ToolWindowManagerEventType.HideToolWindow &&
-                        changedToolWindow.id == TOOL_WINDOW_ID
+                        manager.getToolWindow(TOOL_WINDOW_ID)?.isVisible == false
                     ) {
                         toolWindow.isAvailable = false
                     }
