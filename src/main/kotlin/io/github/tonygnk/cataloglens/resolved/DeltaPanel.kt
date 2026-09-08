@@ -72,7 +72,7 @@ class DeltaPanel(private val project: Project) : JBPanel<DeltaPanel>(BorderLayou
         // Flex with the panel: the long "Change / Reason" column absorbs/yields width on resize, and the
         // table tracks the viewport so it shrinks (truncating) instead of forcing a horizontal scrollbar.
         setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN)
-        columnModel.getColumn(0).preferredWidth = JBUI.scale(240)
+        columnModel.getColumn(0).preferredWidth = JBUI.scale(480)
     }
     private val scrollPane = JBScrollPane(treeTable).apply {
         horizontalScrollBarPolicy = JBScrollPane.HORIZONTAL_SCROLLBAR_NEVER

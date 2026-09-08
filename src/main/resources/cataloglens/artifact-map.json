@@ -7,12 +7,12 @@
       "https://developers.google.com/ml-kit/release-notes"
     ],
     "com.squareup.okhttp3:okhttp": [
-      "https://square.github.io/okhttp/changelogs/changelog/",
-      "https://github.com/square/okhttp/releases"
+      "https://github.com/lysine-dev/okhttp/blob/main/CHANGELOG.md",
+      "https://github.com/lysine-dev/okhttp/releases"
     ],
     "com.squareup.retrofit2:retrofit": [
-      "https://github.com/square/retrofit/blob/trunk/CHANGELOG.md",
-      "https://github.com/square/retrofit/releases"
+      "https://github.com/lysine-dev/retrofit/blob/trunk/CHANGELOG.md",
+      "https://github.com/lysine-dev/retrofit/releases"
     ],
     "com.squareup.moshi:moshi": [
       "https://github.com/square/moshi/blob/master/CHANGELOG.md"
@@ -115,6 +115,9 @@
     "com.android.tools:desugar_jdk_libs": [
       "https://github.com/google/desugar_jdk_libs/blob/master/CHANGELOG.md"
     ],
+    "com.facebook.android:facebook-android-sdk": [
+      "https://github.com/facebook/facebook-android-sdk/blob/main/CHANGELOG.md"
+    ],
     "com.facebook.shimmer:shimmer": [
       "https://github.com/facebookarchive/shimmer-android/releases"
     ],
@@ -155,6 +158,12 @@
       "https://github.com/InsertKoinIO/koin-annotations/releases"
     ],
     "io.insert-koin.compiler": [
+      "https://github.com/InsertKoinIO/koin-compiler-plugin/releases"
+    ],
+    "io.insert-koin.compiler.plugin": [
+      "https://github.com/InsertKoinIO/koin-compiler-plugin/releases"
+    ],
+    "io.insert-koin:koin-compiler-plugin": [
       "https://github.com/InsertKoinIO/koin-compiler-plugin/releases"
     ],
     "org.jetbrains.kotlinx:kotlinx-io-core": [
@@ -229,6 +238,9 @@
     "androidx.compose.ui:ui-test-manifest": [
       "https://developer.android.com/jetpack/androidx/releases/compose-ui"
     ],
+    "androidx.localbroadcastmanager:localbroadcastmanager": [
+      "https://developer.android.com/jetpack/androidx/releases/localbroadcastmanager"
+    ],
     "androidx.media3:media3-exoplayer": [
       "https://developer.android.com/jetpack/androidx/releases/media3"
     ],
@@ -238,8 +250,14 @@
     "androidx.media3:media3-ui": [
       "https://developer.android.com/jetpack/androidx/releases/media3"
     ],
+    "androidx.baselineprofile": [
+      "https://developer.android.com/jetpack/androidx/releases/benchmark"
+    ],
     "androidx.navigation.safeargs": [
       "https://developer.android.com/jetpack/androidx/releases/navigation"
+    ],
+    "androidx.profileinstaller:profileinstaller": [
+      "https://developer.android.com/jetpack/androidx/releases/profileinstaller"
     ],
     "androidx.security:security-crypto": [
       "https://developer.android.com/jetpack/androidx/releases/security"
@@ -358,6 +376,9 @@
     "androidx.arch.core": [
       "https://developer.android.com/jetpack/androidx/releases/arch-core"
     ],
+    "androidx.baselineprofile": [
+      "https://developer.android.com/jetpack/androidx/releases/benchmark"
+    ],
     "androidx.benchmark": [
       "https://developer.android.com/jetpack/androidx/releases/benchmark"
     ],
@@ -375,6 +396,24 @@
     ],
     "androidx.compose": [
       "https://developer.android.com/jetpack/androidx/releases/compose"
+    ],
+    "androidx.compose.animation": [
+      "https://developer.android.com/jetpack/androidx/releases/compose-animation"
+    ],
+    "androidx.compose.compiler": [
+      "https://developer.android.com/jetpack/androidx/releases/compose-compiler"
+    ],
+    "androidx.compose.foundation": [
+      "https://developer.android.com/jetpack/androidx/releases/compose-foundation"
+    ],
+    "androidx.compose.material": [
+      "https://developer.android.com/jetpack/androidx/releases/compose-material"
+    ],
+    "androidx.compose.material3": [
+      "https://developer.android.com/jetpack/androidx/releases/compose-material3"
+    ],
+    "androidx.compose.runtime": [
+      "https://developer.android.com/jetpack/androidx/releases/compose-runtime"
     ],
     "androidx.compose.ui": [
       "https://developer.android.com/jetpack/androidx/releases/compose-ui"
@@ -412,14 +451,23 @@
     "androidx.lifecycle": [
       "https://developer.android.com/jetpack/androidx/releases/lifecycle"
     ],
+    "androidx.localbroadcastmanager": [
+      "https://developer.android.com/jetpack/androidx/releases/localbroadcastmanager"
+    ],
     "androidx.media3": [
       "https://developer.android.com/jetpack/androidx/releases/media3"
     ],
     "androidx.navigation": [
       "https://developer.android.com/jetpack/androidx/releases/navigation"
     ],
+    "androidx.navigation3": [
+      "https://developer.android.com/jetpack/androidx/releases/navigation3"
+    ],
     "androidx.paging": [
       "https://developer.android.com/jetpack/androidx/releases/paging"
+    ],
+    "androidx.profileinstaller": [
+      "https://developer.android.com/jetpack/androidx/releases/profileinstaller"
     ],
     "androidx.recyclerview": [
       "https://developer.android.com/jetpack/androidx/releases/recyclerview"
@@ -470,6 +518,9 @@
     "io.insert-koin": [
       "https://github.com/InsertKoinIO/koin/releases"
     ],
+    "io.insert-koin.compiler": [
+      "https://github.com/InsertKoinIO/koin-compiler-plugin/releases"
+    ],
     "io.coil-kt": [
       "https://github.com/coil-kt/coil/blob/main/CHANGELOG.md"
     ],
@@ -488,11 +539,15 @@
     "app.cash.molecule": [
       "https://github.com/cashapp/molecule/releases"
     ],
+    "com.facebook.android": [
+      "https://github.com/facebook/facebook-android-sdk/blob/main/CHANGELOG.md"
+    ],
     "com.squareup.okhttp3": [
-      "https://square.github.io/okhttp/changelogs/changelog/"
+      "https://github.com/lysine-dev/okhttp/blob/main/CHANGELOG.md",
+      "https://github.com/lysine-dev/okhttp/releases"
     ],
     "com.squareup.retrofit2": [
-      "https://github.com/square/retrofit/releases"
+      "https://github.com/lysine-dev/retrofit/releases"
     ],
     "com.squareup.moshi": [
       "https://github.com/square/moshi/blob/master/CHANGELOG.md"

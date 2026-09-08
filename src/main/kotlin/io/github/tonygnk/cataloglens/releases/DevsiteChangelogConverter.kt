@@ -23,7 +23,7 @@ object DevsiteChangelogConverter {
     // before the first such heading (declaring dependencies, compiler-options preamble) is dropped.
     private val VERSION_HEADING = Regex("(?i)^version\\b")
 
-    private class Builder(val version: String?, val header: String) {
+    private class Builder(val version: String?, val header: String, val level: Int) {
         val body = StringBuilder()
     }
 
@@ -31,21 +31,59 @@ object DevsiteChangelogConverter {
         val doc = Jsoup.parse(html, baseUri)
         val body = doc.selectFirst("div.devsite-article-body") ?: return emptyList()
 
-        val builders = mutableListOf(Builder(version = null, header = ""))
-        appendBlocks(body, builders)
-
-        val sections = builders
-            .map { ChangelogSection(it.version, it.header, it.body.toString().normalize()) }
-            .filter { it.header.isNotBlank() || it.markdown.isNotBlank() }
-        // A real changelog has at least a version section or a heading; a bare paragraph body is a
-        // non-article page — return empty so the caller falls back to the browser.
-        if (sections.none { it.version != null || it.markdown.contains('#') }) return emptyList()
+        val all = mutableListOf(Builder(version = null, header = "", level = 0))
+        appendBlocks(body, all)
 
         // When the page has versioned sections, drop the leading preamble (matches prior behaviour
         // of starting at the first "Version" heading). Pages without any (e.g. AGP) keep everything.
-        val firstVersioned = sections.indexOfFirst { it.version != null }
-        return if (firstVersioned > 0) sections.drop(firstVersioned) else sections
+        val firstVersioned = all.indexOfFirst { it.version != null }
+        val builders = if (firstVersioned > 0) all.drop(firstVersioned) else all
+
+        val sections = builders.mapIndexedNotNull { i, builder ->
+            val markdown = builder.body.toString().normalize()
+            val seriesHeading = isSeriesHeading(builders, i)
+            when {
+                // A series heading is not a release: it carries no notes of its own, so there is
+                // nothing to show and nothing to pin. Drop the card entirely.
+                seriesHeading && markdown.isBlank() -> null
+                builder.header.isBlank() && markdown.isBlank() -> null
+                // A series heading that does carry text (a compatibility note, a "changes since"
+                // summary) stays as a divider, but its version is still not pinnable.
+                else -> ChangelogSection(builder.version.takeUnless { seriesHeading }, builder.header, markdown)
+            }
+        }
+        // A real changelog has at least a version section or a heading; a bare paragraph body is a
+        // non-article page — return empty so the caller falls back to the browser.
+        if (sections.none { it.version != null || it.markdown.contains('#') }) return emptyList()
+        return sections
     }
+
+    /**
+     * True when the "Version X" heading at [index] merely groups the releases nested under it
+     * instead of naming one. devsite wraps every release in such a heading: "Version 1.3" over
+     * "Version 1.3.0-alpha10", or a bare "Version 1.11.0" over the 1.11.0 entry itself. Neither
+     * "1.3" nor the repeated "1.11.0" is worth offering — the deeper heading already is.
+     *
+     * The whole nested block is scanned, not just the first entry, because a group is ordered
+     * newest-first and so may open with a later patch ("Version 1.7.0" over "Version 1.7.1", then
+     * "Version 1.7.0"). A block that only ever appends pre-release qualifiers ("Version 1.0.0" over
+     * "Version 1.0.0-rc01") is the opposite case: there the outer heading *is* the stable release,
+     * carrying its own notes, and nothing below repeats it.
+     */
+    private fun isSeriesHeading(builders: List<Builder>, index: Int): Boolean {
+        val heading = builders[index]
+        val version = heading.version ?: return false
+        for (i in index + 1 until builders.size) {
+            val nested = builders[i]
+            if (nested.level <= heading.level) return false
+            val nestedVersion = nested.version ?: continue
+            if (nestedVersion == version || nestedVersion.numericCore().startsWith("$version.")) return true
+        }
+        return false
+    }
+
+    /** The leading dotted-number part of a version, without any `-rc01` / `+meta` qualifier. */
+    private fun String.numericCore(): String = takeWhile { it.isDigit() || it == '.' }
 
     private fun appendBlocks(container: Element, builders: MutableList<Builder>) {
         for (el in container.children()) {
@@ -54,7 +92,8 @@ object DevsiteChangelogConverter {
                 "h1", "h2", "h3", "h4", "h5", "h6" -> {
                     val text = inline(el)
                     if (VERSION_HEADING.containsMatchIn(text)) {
-                        builders.add(Builder(VersionMatcher.extractPinnable(text), text))
+                        val level = el.tagName().substring(1).toInt()
+                        builders.add(Builder(VersionMatcher.extractPinnable(text), text, level))
                     } else {
                         val hashes = when (el.tagName()) {
                             "h1", "h2" -> "#"

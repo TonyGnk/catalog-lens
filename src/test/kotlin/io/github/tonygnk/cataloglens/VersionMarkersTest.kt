@@ -49,7 +49,7 @@ class VersionMarkersTest : BasePlatformTestCase() {
         val urls = VersionUrlResolver.resolveLibrary(
             project, Coord("com.squareup.okhttp3", "okhttp", null),
         )
-        assertContainsElements(urls, "https://square.github.io/okhttp/changelogs/changelog/")
+        assertContainsElements(urls, "https://github.com/lysine-dev/okhttp/releases")
     }
 
     fun testGroupPrefixFallback() {
@@ -57,7 +57,7 @@ class VersionMarkersTest : BasePlatformTestCase() {
         val urls = VersionUrlResolver.resolveLibrary(
             project, Coord("com.squareup.okhttp3", "logging-interceptor", null),
         )
-        assertContainsElements(urls, "https://square.github.io/okhttp/changelogs/changelog/")
+        assertContainsElements(urls, "https://github.com/lysine-dev/okhttp/releases")
     }
 
     fun testPrefixMatchesOnDotBoundaryOnly() {

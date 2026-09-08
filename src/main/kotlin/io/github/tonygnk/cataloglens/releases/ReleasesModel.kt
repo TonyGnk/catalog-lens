@@ -31,6 +31,25 @@ sealed interface ContentTarget {
         override fun withEdit(edit: VersionEditContext?) = copy(edit = edit)
     }
 
+    /**
+     * A Markdown changelog in a repo (`CHANGELOG.md`). Rendered from the raw file rather than the
+     * blob page: raw.githubusercontent.com serves plain text, needs no API token, and — unlike the
+     * REST API — is unaffected by the unauthenticated rate limit and by repo renames.
+     */
+    data class GithubMarkdown(
+        val owner: String,
+        val repo: String,
+        val ref: String,
+        val path: String,
+        override val url: String,
+        override val edit: VersionEditContext? = null,
+    ) : ContentTarget {
+        val rawUrl: String get() = "https://raw.githubusercontent.com/$owner/$repo/$ref/$path"
+        val fileName: String get() = path.substringAfterLast('/')
+        override val title: String get() = "$owner/$repo · $fileName"
+        override fun withEdit(edit: VersionEditContext?) = copy(edit = edit)
+    }
+
     data class DevsiteArticle(
         val label: String,
         override val url: String,
@@ -71,7 +90,7 @@ internal class GithubReleaseDto {
 /** One version block of a devsite changelog. [version] is the pinnable token, null for preamble. */
 data class ChangelogSection(val version: String?, val header: String, val markdown: String)
 
-enum class FailureKind { RATE_LIMIT, NETWORK }
+enum class FailureKind { RATE_LIMIT, NETWORK, UNPARSEABLE }
 
 sealed interface ContentState {
     val target: ContentTarget

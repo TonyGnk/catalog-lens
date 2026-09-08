@@ -80,6 +80,7 @@ object MarkdownToHtml {
         s = LINK.replace(s) { "<a href=\"${it.groupValues[2]}\">${it.groupValues[1]}</a>" }
         s = BOLD.replace(s) { "<b>${it.groupValues[1]}</b>" }
         s = ITALIC.replace(s) { "<i>${it.groupValues[1]}</i>" }
+        s = ITALIC_UNDERSCORE.replace(s) { "<i>${it.groupValues[1]}</i>" }
         s = BARE_URL.replace(s) { "<a href=\"${it.groupValues[1]}\">${it.groupValues[1]}</a>" }
         return s
     }
@@ -93,5 +94,8 @@ object MarkdownToHtml {
     private val LINK = Regex("\\[([^\\]]+)\\]\\((https?://[^)\\s]+)\\)")
     private val BOLD = Regex("\\*\\*([^*]+)\\*\\*")
     private val ITALIC = Regex("(?<![*\\w])\\*([^*\\n]+)\\*(?![*\\w])")
+    // OkHttp and Moshi date every entry as _2026-08-16_. The extra `/ " =` guards keep the
+    // underscores inside an already-emitted href (…/_foo_/…) from being taken for emphasis.
+    private val ITALIC_UNDERSCORE = Regex("(?<![_\\w/\"=])_([^_\\n]+)_(?![_\\w/])")
     private val BARE_URL = Regex("(?<![\"=>/])\\b(https?://[^\\s<)]+)")
 }

@@ -33,7 +33,9 @@ import javax.swing.text.html.HTMLEditorKit
 class ReleasesPanel(private val project: Project) : JBPanel<ReleasesPanel>(BorderLayout()), ReleasesView {
 
     private val titleLabel = JBLabel().apply { font = JBFont.label().asBold() }
-    private val openLink = ActionLink("Open in browser") {}
+    // isFocusPainted(false) also drops the ring's reserved insets, so nothing shifts when the
+    // header link is the first focusable component the tool window hands focus to.
+    private val openLink = ActionLink("Open in browser") {}.apply { isFocusPainted = false }
     private val content = ScrollableContent()
     private val scrollPane = JBScrollPane(
         content,
@@ -230,6 +232,8 @@ class ReleasesPanel(private val project: Project) : JBPanel<ReleasesPanel>(Borde
                 "GitHub API rate limit reached (60 requests/hour when unauthenticated). Try again later."
             FailureKind.NETWORK ->
                 "Could not load this page. Check your connection and try again."
+            FailureKind.UNPARSEABLE ->
+                "This page loaded but holds no recognisable version notes. Open it in the browser instead."
         }
         return JBPanel<JBPanel<*>>().apply {
             layout = BoxLayout(this, BoxLayout.Y_AXIS)

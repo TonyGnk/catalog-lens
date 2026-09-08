@@ -76,8 +76,25 @@ class GithubReleasesService(private val cs: CoroutineScope) {
 
     private fun fetch(target: ContentTarget): ContentState = when (target) {
         is ContentTarget.GithubReleases -> fetchReleases(target)
+        is ContentTarget.GithubMarkdown -> fetchMarkdown(target)
         is ContentTarget.DevsiteArticle -> fetchArticle(target)
     }
+
+    private fun fetchMarkdown(target: ContentTarget.GithubMarkdown): ContentState =
+        try {
+            val markdown = HttpRequests.request(target.rawUrl)
+                .productNameAsUserAgent()
+                .readString()
+            val sections = MarkdownChangelogConverter.toSections(markdown)
+            if (sections.isEmpty()) {
+                ContentState.Failed(target, FailureKind.UNPARSEABLE)
+            } else {
+                ContentState.Article(target, sections)
+            }
+        } catch (e: Exception) {
+            thisLogger().warn("Failed to fetch markdown changelog ${target.rawUrl}", e)
+            ContentState.Failed(target, FailureKind.NETWORK)
+        }
 
     private fun fetchReleases(target: ContentTarget.GithubReleases): ContentState =
         try {
@@ -107,7 +124,7 @@ class GithubReleasesService(private val cs: CoroutineScope) {
                 .readString()
             val sections = DevsiteChangelogConverter.toSections(html, target.url)
             if (sections.isEmpty()) {
-                ContentState.Failed(target, FailureKind.NETWORK)
+                ContentState.Failed(target, FailureKind.UNPARSEABLE)
             } else {
                 ContentState.Article(target, sections)
             }
